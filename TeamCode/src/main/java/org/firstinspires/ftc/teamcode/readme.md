@@ -48,7 +48,6 @@ After the prefix, other conventions will apply:
 
 * Sensor class names are constructed as:    Sensor - Company - Type
 * Robot class names are constructed as:     Robot - Mode - Action - OpModetype
-* Concept class names are constructed as:   Concept - Topic - OpModetype
 
 Once you are familiar with the range of samples available, you can choose one to be the
 basis for your own robot.  In all cases, the desired sample(s) needs to be copied into
