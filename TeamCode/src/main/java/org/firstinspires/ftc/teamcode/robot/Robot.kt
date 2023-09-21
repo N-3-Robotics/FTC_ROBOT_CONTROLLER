@@ -38,14 +38,6 @@ class Robot(hwMap: HardwareMap?) {
 
     var driveMotors: Array<DcMotorEx>
 
-    var SLIDES: Slides
-
-    var CLAW: Servo
-
-    var CONE_SENSOR: Rev2mDistanceSensor
-
-    var SLIDES_RESET: DigitalChannel
-
     var IMU: BNO055IMU
 
 
@@ -92,9 +84,6 @@ class Robot(hwMap: HardwareMap?) {
                     return true
                 }
             }
-            if (SLIDES.state == Slides.State.MOVING) {
-                return true
-            }
             return false
         }
 
@@ -135,11 +124,6 @@ class Robot(hwMap: HardwareMap?) {
             BL.mode = value
             BR.mode = value
             field = value
-        }
-
-    val coneDetected: Boolean
-        get() {
-            return CONE_SENSOR.getDistance(DistanceUnit.INCH) <= 2.3 && abs(SLIDES.currentPosition) < 500
         }
 
 
@@ -194,7 +178,7 @@ class Robot(hwMap: HardwareMap?) {
     }
 
     fun gamepadDrive(controller: Gamepad, multiplier: Double) {
-        FCDrive(
+        RCDrive(
             -controller.left_stick_y.toDouble() * multiplier,
             controller.left_stick_x.toDouble() * multiplier,
             controller.right_stick_x.toDouble() * multiplier
@@ -295,12 +279,6 @@ class Robot(hwMap: HardwareMap?) {
 
         update()
     }
-    fun closeClaw(claw: Servo = CLAW) {
-        claw.position = DriveConstants.ClawClose
-    }
-    fun openClaw(claw: Servo = CLAW) {
-        claw.position = DriveConstants.ClawOpen
-    }
 
     fun rumble(controller: Gamepad, side: Side, power: RumbleStrength, duration: Int = 100) {
         val pwr = power.strength
@@ -365,14 +343,6 @@ class Robot(hwMap: HardwareMap?) {
 
         driveMotors = arrayOf(FL, FR, BL, BR)
 
-        CLAW = hardwareMap!!.get(Servo::class.java, "CLAW")
-
-        SLIDES = Slides(hardwareMap!!.get(DcMotorEx::class.java, "SLIDES"))
-
-        SLIDES_RESET = hardwareMap!!.get(DigitalChannel::class.java, "slidesReset")
-
-        CONE_SENSOR = hardwareMap!!.get(Rev2mDistanceSensor::class.java, "CONE_SENSOR")
-
         headingPIDController.setOutputBounds(-0.1, 0.1)
         turnPIDController.setOutputBounds(-1.0, 1.0)
         drivePIDController.setOutputBounds(-1.0, 1.0)
@@ -381,7 +351,7 @@ class Robot(hwMap: HardwareMap?) {
         FL.direction = DcMotorSimple.Direction.REVERSE
         BL.direction = DcMotorSimple.Direction.REVERSE
 
-        //CLAW.direction = Servo.Direction.REVERSE
+
 
         FR.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         FL.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
@@ -393,13 +363,7 @@ class Robot(hwMap: HardwareMap?) {
         BR.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         BL.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
-        SLIDES.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-
-        SLIDES.targetPosition = 0
-        SLIDES.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-        SLIDES.mode = DcMotor.RunMode.RUN_USING_ENCODER
-
-        IMU = hardwareMap!!.get(BNO055IMU::class.java, "imu")
+        IMU = hardwareMap!!.get(BNO055IMU::class.java, "IMU")
         val parameters = BNO055IMU.Parameters()
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
