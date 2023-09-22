@@ -6,14 +6,15 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.7.20'
+        kotlin_version = '1.9.20-Beta2'
     }
     repositories {
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        // Note for FTC Teams: Do not modify this yourself.
+        classpath 'com.android.tools.build:gradle:7.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -29,8 +30,4 @@ allprojects {
 
 repositories {
     mavenCentral()
-
-    flatDir {
-        dirs '../libs'
-    }
 }

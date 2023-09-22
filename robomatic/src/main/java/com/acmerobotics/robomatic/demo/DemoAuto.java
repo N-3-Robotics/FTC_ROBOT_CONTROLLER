@@ -2,8 +2,9 @@ package com.acmerobotics.robomatic.demo;
 
 import com.acmerobotics.robomatic.config.ConfigurationLoader;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+@Disabled
 @Autonomous(name="demoAuto")
 public class DemoAuto extends LinearOpMode {
     @Override

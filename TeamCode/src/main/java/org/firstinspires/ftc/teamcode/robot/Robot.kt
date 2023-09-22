@@ -1,12 +1,14 @@
 @file:Suppress("unused", "NAME_SHADOWING")
 package org.firstinspires.ftc.teamcode.robot
 
+import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
+import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.acmerobotics.robomatic.util.PIDController
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.teamcode.robot.kinematics.MecanumKinematics
 import org.firstinspires.ftc.teamcode.utilities.AutoMode.*
 import org.firstinspires.ftc.teamcode.utilities.DriveConstants
 import org.firstinspires.ftc.teamcode.utilities.DriveConstants.AutoDriveTolerance
@@ -25,8 +27,6 @@ import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.radToDeg
 import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.ticksToInches
 import org.firstinspires.ftc.teamcode.utilities.RumbleStrength
 import org.firstinspires.ftc.teamcode.utilities.Side
-import org.firstinspires.ftc.teamcode.utilities.geometry.Pose2d
-import org.firstinspires.ftc.teamcode.utilities.geometry.Vector2d
 import kotlin.math.abs
 
 
@@ -39,8 +39,6 @@ class Robot(hwMap: HardwareMap?) {
     var driveMotors: Array<DcMotorEx>
 
     var IMU: BNO055IMU
-
-
 
     val trackWidth = 12.0
     val wheelBase = 9.5
@@ -66,11 +64,6 @@ class Robot(hwMap: HardwareMap?) {
     private var hasBeenRun = true
 
     var autoMode = UNKNOWN
-
-    val currentPose: Pose2d
-        get() {
-            return localiser.poseEstimate
-        }
 
     val currentPosition: Int
         get() {
@@ -134,8 +127,6 @@ class Robot(hwMap: HardwareMap?) {
     var turnPIDController = PIDController(turn_kP, turn_kI, turn_kD)
     var drivePIDController = PIDController(drive_kP, drive_kI, drive_kD)
 
-    val localiser = MecanumLocaliser(this)
-
     private fun tDrive(drive: Double, turn: Double){
         FL.power = drive + turn
         FR.power = drive - turn
@@ -164,7 +155,7 @@ class Robot(hwMap: HardwareMap?) {
         BR.power = rightBackPower
 
         autoMode = MANUAL
-        update()
+//        update()
     }
 
     fun FCDrive(y: Double, x: Double, turn: Double) {
@@ -209,8 +200,6 @@ class Robot(hwMap: HardwareMap?) {
                     distanceError = distanceTarget - ticksToInches(currentPosition)
 
                     correction = drivePIDController.update(distanceError)
-
-                    localiser.update()
 
                     tDrive(correction, headingCorrection)
                 }
@@ -280,17 +269,17 @@ class Robot(hwMap: HardwareMap?) {
         update()
     }
 
-    fun rumble(controller: Gamepad, side: Side, power: RumbleStrength, duration: Int = 100) {
+    fun rumble(controller: Gamepad, side: Side, power: RumbleStrength, durationMS: Int = 100) {
         val pwr = power.strength
         when (side) {
             Side.LEFT -> {
-                controller.rumble(pwr, 0.0, duration)
+                controller.rumble(pwr, 0.0, durationMS)
             }
             Side.RIGHT -> {
-                controller.rumble(0.0, pwr, duration)
+                controller.rumble(0.0, pwr, durationMS)
             }
             Side.BOTH -> {
-                controller.rumble(pwr / 2, pwr / 2, duration)
+                controller.rumble(pwr / 2, pwr / 2, durationMS)
             }
         }
     }
@@ -363,7 +352,7 @@ class Robot(hwMap: HardwareMap?) {
         BR.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         BL.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
-        IMU = hardwareMap!!.get(BNO055IMU::class.java, "IMU")
+        IMU = hardwareMap!!.get(BNO055IMU::class.java, "imu")
         val parameters = BNO055IMU.Parameters()
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC

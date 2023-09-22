@@ -1,9 +1,10 @@
 package com.acmerobotics.robomatic.demo;
 
 import com.acmerobotics.robomatic.util.StickyGamepad;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+@Disabled
 @TeleOp(name="DemoTeleOp")
 public class DemoTeleOp extends LinearOpMode {
 

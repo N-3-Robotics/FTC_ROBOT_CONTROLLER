@@ -127,29 +127,6 @@ object DriveConstants{
     var AutoTurnTolerance = 0.25 // degree
 
     @JvmField
-    var SlidesTolerance = 50 // tick
-
-    @JvmField
-    var ClawOpen = 0.52
-
-    @JvmField
-    var ClawClose = 0.6
-
-    var SlidesSpeed = 1.0
-
-    var SlidesMax = 5359
-
-    var SlidesMin = 0
-
-    var highPole = SlidesMax
-
-    var midPole = SlidesMax / 3 * 2
-
-    var lowPole = SlidesMax / 3
-
-    var slightRaise = 300
-
-    @JvmField
     var HoldingPower = 0.0001
 }
 
