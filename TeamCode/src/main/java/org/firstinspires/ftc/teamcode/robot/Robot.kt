@@ -38,6 +38,15 @@ class Robot(hwMap: HardwareMap?) {
 
     var driveMotors: Array<DcMotorEx>
 
+
+    var LIFT: DcMotorEx
+
+    var WRIST: Servo
+
+    var LG: Servo
+    var RG: Servo
+
+
     var IMU: BNO055IMU
 
     val trackWidth = 12.0
@@ -81,6 +90,16 @@ class Robot(hwMap: HardwareMap?) {
         BR = hardwareMap!!.get(DcMotorEx::class.java, "BR")
 
         driveMotors = arrayOf(FL, FR, BL, BR)
+
+
+        LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+
+        WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
+
+        LG = hardwareMap!!.get(Servo::class.java, "LG")
+
+        RG = hardwareMap!!.get(Servo::class.java, "RG")
+
 
         headingPIDController.setOutputBounds(-0.1, 0.1)
         turnPIDController.setOutputBounds(-1.0, 1.0)
