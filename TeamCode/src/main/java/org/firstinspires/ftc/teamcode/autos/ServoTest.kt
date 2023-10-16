@@ -13,9 +13,9 @@ object TestVars{
     var WristLevelPos: Double = 0.58
 
     @JvmField
-    var LGOpen: Double = 0.95
+    var LGOpen: Double = 0.35
     @JvmField
-    var LGClose: Double = 1.2
+    var LGClose: Double = 0.0
 
     @JvmField
     var RGOpen: Double = 0.0
