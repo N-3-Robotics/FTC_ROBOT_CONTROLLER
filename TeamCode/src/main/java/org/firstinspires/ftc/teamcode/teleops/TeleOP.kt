@@ -72,6 +72,8 @@ class TeleOP: LinearOpMode() {
                 }
             }
 
+            ROBOT.ELEVATOR.power = -gamepad2.right_stick_y
+
             /* DRIVETRAIN SPEED CONTROL */
             when {
                 gamepad1.cross -> {

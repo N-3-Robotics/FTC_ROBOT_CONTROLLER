@@ -41,6 +41,8 @@ class Robot(hwMap: HardwareMap?) {
 
     var LIFT: DcMotorEx
 
+    var ELEVATOR: DcMotorEx
+
     var WRIST: Servo
 
     var LG: Servo
@@ -93,6 +95,8 @@ class Robot(hwMap: HardwareMap?) {
 
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+
+        ELEVATOR = hardwareMap!!.get(DcMotorEx::class.java, "ELEVATOR")
 
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
 
