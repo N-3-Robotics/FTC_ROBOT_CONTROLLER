@@ -22,7 +22,7 @@ object TestVars{
 
 }
 
-@Autonomous(name="Servo Test")
+@Autonomous(name="Servo Test", group = "Autonomous")
 class ServoTest: LinearOpMode() {
 
     override fun runOpMode() {

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.Gamepad.LedEffect
 import com.qualcomm.robotcore.util.ElapsedTime
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.teamcode.autos.TestVars
 import org.firstinspires.ftc.teamcode.robot.Robot
 import org.firstinspires.ftc.teamcode.utilities.*
@@ -72,7 +73,8 @@ class TeleOP: LinearOpMode() {
                 }
             }
 
-            ROBOT.ELEVATOR.power = -gamepad2.right_stick_y
+            ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
+            ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
 
             /* DRIVETRAIN SPEED CONTROL */
             when {
@@ -101,6 +103,11 @@ class TeleOP: LinearOpMode() {
             d2Clone.copy(gamepad2)
 
             ROBOT.gamepadDrive(gamepad1, m)
+
+            telemetry.addData("Elevator Position", ROBOT.ELEVATOR.currentPosition)
+            telemetry.addData("Lift Position", ROBOT.LIFT.currentPosition)
+            telemetry.addData("Global Heading", ROBOT.IMU.angularOrientation.toAxesOrder(AxesOrder.XYZ).thirdAngle)
+
             telemetry.update()
             /* END - ACTION LOOP */
         }

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.robot.Robot
 
 @Disabled
-@Autonomous(name = "Cone Parking")
+@Autonomous(name = "Cone Parking", group = "Autonomous")
 class Auto: LinearOpMode() {
 
 
