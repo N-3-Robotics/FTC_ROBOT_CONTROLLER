@@ -77,6 +77,11 @@ class TeleOP: LinearOpMode() {
                     ROBOT.LG.position = TestVars.LGOpen
                 }
             }
+            if (gamepad2.right_bumper && !d2Clone.right_bumper){
+                if (gamepad2.right_bumper){
+                    ROBOT.RG.position = TestVars.RGOpen
+                }
+            }
 
             ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
             ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
