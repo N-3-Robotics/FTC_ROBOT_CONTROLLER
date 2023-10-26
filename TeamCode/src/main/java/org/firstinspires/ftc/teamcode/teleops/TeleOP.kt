@@ -12,6 +12,12 @@ import org.firstinspires.ftc.teamcode.autos.TestVars
 import org.firstinspires.ftc.teamcode.robot.Robot
 import org.firstinspires.ftc.teamcode.utilities.*
 import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.rED
+import java.nio.file.ClosedDirectoryStreamException
+
+
+private enum class States {
+    OPEN, CLOSE, UP, DOWN
+}
 
 @TeleOp(name = "TeleOp")
 class TeleOP: LinearOpMode() {
@@ -33,6 +39,11 @@ class TeleOP: LinearOpMode() {
         d2Clone.copy(gamepad2)
 
         var m = 0.5
+
+        var LGSTATE = States.CLOSE
+        var RGSTATE = States.CLOSE
+        var WristState = States.DOWN
+
 
         /* END - INITIALIZATION */
 
@@ -67,16 +78,81 @@ class TeleOP: LinearOpMode() {
             timer.reset()
 
             /* DRIVER 2 */
+
+
+
+            if (LGSTATE == States.CLOSE) {
+                ROBOT.LG.position = TestVars.LGClose
+            }
+
+            else if (LGSTATE == States.OPEN){
+                ROBOT.LG.position = TestVars.LGOpen
+            }
+
+            if (RGSTATE == States.CLOSE) {
+                ROBOT.RG.position = TestVars.RGClose
+            }
+
+            else if (RGSTATE == States.OPEN){
+                ROBOT.RG.position = TestVars.RGOpen
+            }
+
+            if (WristState == States.UP) {
+                ROBOT.WRIST.position = TestVars.WristTop
+            }
+            else if (WristState == States.DOWN) {
+                ROBOT.WRIST.position = TestVars.WristLevelPos
+            }
+
+//            when (WristState) {
+//                States.UP -> {
+//                    ROBOT.WRIST.position = TestVars.WristTop
+//                }
+//                States.DOWN -> {
+//                    closeClaws()
+//                    ROBOT.WRIST.position = TestVars.WristLevelPos
+//                }
+//                else -> {
+//                    WristState = States.DOWN
+//                }
+//            }
+
+
             if (gamepad2.triangle && !d2Clone.triangle) {
                 if (gamepad2.triangle) {
-                    ROBOT.WRIST.position = TestVars.WristLevelPos
+                    if (WristState == States.UP)
+                        WristState = States.DOWN
+                    else
+                        WristState = States.UP
                 }
             }
 
+            if (gamepad2.left_bumper && !d2Clone.left_bumper) {
+                if (gamepad2.left_bumper) {
+                   if (LGSTATE == States.OPEN)
+                       LGSTATE = States.CLOSE
+                    else
+                        LGSTATE = States.OPEN
+                }
+            }
+            if (gamepad2.right_bumper && !d2Clone.right_bumper) {
+                if (gamepad2.right_bumper) {
+                    if (RGSTATE == States.OPEN)
+                        RGSTATE = States.CLOSE
+                    else
+                        RGSTATE = States.OPEN
+                }
+            }
+
+
+
             ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
-            ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
+            ROBOT.LIFT.power = gamepad2.left_stick_y.toDouble()
 
             /* DRIVETRAIN SPEED CONTROL */
+
+
+
             when {
                 gamepad1.cross -> {
                     m = 0.25
@@ -118,5 +194,11 @@ class TeleOP: LinearOpMode() {
     fun haptic(controller: Gamepad, side: Side) {
         Robot(hardwareMap).rumble(controller, side, RumbleStrength.LOW, 300)
     }
+
+    fun closeClaws() {
+        Robot(hardwareMap).LG.position = TestVars.LGClose
+        Robot(hardwareMap).RG.position = TestVars.RGClose
+    }
+
     /* END - FUNCTIONS */
 }

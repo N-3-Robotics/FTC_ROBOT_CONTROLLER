@@ -99,11 +99,8 @@ class Robot(hwMap: HardwareMap?) {
         ELEVATOR = hardwareMap!!.get(DcMotorEx::class.java, "ELEVATOR")
 
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
-
         LG = hardwareMap!!.get(Servo::class.java, "LG")
-
         RG = hardwareMap!!.get(Servo::class.java, "RG")
-
 
         headingPIDController.setOutputBounds(-0.1, 0.1)
         turnPIDController.setOutputBounds(-1.0, 1.0)

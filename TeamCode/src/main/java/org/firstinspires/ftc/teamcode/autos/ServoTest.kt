@@ -10,15 +10,24 @@ import org.firstinspires.ftc.teamcode.robot.Robot
 object TestVars{
 
     @JvmField
-    var WristLevelPos: Double = 0.58
+    var WristLevelPos: Double = 1.0
 
     @JvmField
-    var LGOpen: Double = 0.35
+    var WristTop: Double = 0.0
+
+    @JvmField
+    var LGOpen: Double = 0.1
+
     @JvmField
     var LGClose: Double = 0.0
 
     @JvmField
     var RGOpen: Double = 0.0
+
+    @JvmField
+    var RGClose: Double = 0.1
+
+
 
 }
 
@@ -33,6 +42,10 @@ class ServoTest: LinearOpMode() {
         while (opModeIsActive()) {
 
             ROBOT.RG.position = TestVars.RGOpen
+
+            ROBOT.LG.position = TestVars.LGOpen
+
+            ROBOT.WRIST.position = TestVars.WristLevelPos
 
             sleep(500)
 
