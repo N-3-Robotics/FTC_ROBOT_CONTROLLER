@@ -104,36 +104,12 @@ class TeleOP: LinearOpMode() {
                 ROBOT.WRIST.position = TestVars.WristLevelPos
             }
 
-//            when (WristState) {
-//                States.UP -> {
-//                    ROBOT.WRIST.position = TestVars.WristTop
-//                }
-//                States.DOWN -> {
-//                    closeClaws()
-//                    ROBOT.WRIST.position = TestVars.WristLevelPos
-//                }
-//                else -> {
-//                    WristState = States.DOWN
-//                }
-//            }
-
-
             if (gamepad2.triangle && !d2Clone.triangle) {
                 if (gamepad2.triangle) {
                     if (WristState == States.UP)
                         WristState = States.DOWN
                     else
                         WristState = States.UP
-                }
-            }
-            if (gamepad2.left_bumper && !d2Clone.left_bumper){
-                if (gamepad2.left_bumper){
-                    ROBOT.LG.position = TestVars.LGOpen
-                }
-            }
-            if (gamepad2.right_bumper && !d2Clone.right_bumper){
-                if (gamepad2.right_bumper){
-                    ROBOT.RG.position = TestVars.RGOpen
                 }
             }
 
