@@ -126,6 +126,16 @@ class TeleOP: LinearOpMode() {
                         WristState = States.UP
                 }
             }
+            if (gamepad2.left_bumper && !d2Clone.left_bumper){
+                if (gamepad2.left_bumper){
+                    ROBOT.LG.position = TestVars.LGOpen
+                }
+            }
+            if (gamepad2.right_bumper && !d2Clone.right_bumper){
+                if (gamepad2.right_bumper){
+                    ROBOT.RG.position = TestVars.RGOpen
+                }
+            }
 
             if (gamepad2.left_bumper && !d2Clone.left_bumper) {
                 if (gamepad2.left_bumper) {
