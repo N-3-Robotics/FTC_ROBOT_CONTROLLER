@@ -95,6 +95,7 @@ class Robot(hwMap: HardwareMap?) {
 
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+        LIFT.direction = DcMotorSimple.Direction.REVERSE
 
         ELEVATOR = hardwareMap!!.get(DcMotorEx::class.java, "ELEVATOR")
 
