@@ -69,6 +69,19 @@ class TeleOP: LinearOpMode() {
         gamepad2.runLedEffect(p2effect)
         ROBOT.rumble(gamepad1, Side.BOTH, RumbleStrength.HIGH, 5000)
         ROBOT.rumble(gamepad2, Side.BOTH, RumbleStrength.HIGH, 5000)
+        // Create effects to indicate to drivers if the claws are open
+        val openEffectLeft: LedEffect = LedEffect.Builder()
+                .addStep(0.0,1.0,0.0,250)
+                .addStep(0.0,0.0,1.0,250)
+                .build()
+        val openEffectRight: LedEffect = LedEffect.Builder()
+                .addStep(1.0,0.0,0.0,250)
+                .addStep(0.0,1.0,0.0,250)
+                .build()
+        val openEffectBoth:LedEffect = LedEffect.Builder()
+                .addStep(1.0,0.0,0.0,250)
+                .addStep(0.0,0.0,1.0,250)
+                .build()
 
         waitForStart()
         /* END - STARTING ROBOT */
@@ -87,27 +100,34 @@ class TeleOP: LinearOpMode() {
 
             else if (LGSTATE == States.OPEN){
                 ROBOT.LG.position = TestVars.LGOpen
+
             }
 
             if (RGSTATE == States.CLOSE) {
                 ROBOT.RG.position = TestVars.RGClose
             }
 
-            else if (RGSTATE == States.OPEN){
+            else if (RGSTATE == States.OPEN) {
                 ROBOT.RG.position = TestVars.RGOpen
             }
+            /// Indicate to driver 2 if the claw is open
+            if (RGSTATE == States.OPEN && LGSTATE == States.OPEN){
+                haptic(gamepad2, Side.BOTH)
+            }
+            else if (RGSTATE == States.OPEN){
+                haptic(gamepad2, Side.RIGHT)
+            }
+            else if (LGSTATE == States.OPEN){
+                haptic(gamepad2, Side.LEFT)
+            }
+            if (WristState == States.UP) {
+                ROBOT.WRIST.position = TestVars.WristTop
 
-                /* AUTOWRIST ROTATION */
-//            if (WristState == States.UP) {
-//                ROBOT.WRIST.position = TestVars.WristTop
-//
-//                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
-//                    WristState = States.DOWN
-//                }
-//
-//            }
-                /* END WRIST ROTATION */
+                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
+                    WristState = States.DOWN
+                }
 
+            }
             else if (WristState == States.DOWN) {
                 ROBOT.WRIST.position = TestVars.WristLevelPos
             }
@@ -120,6 +140,7 @@ class TeleOP: LinearOpMode() {
                         WristState = States.UP
                 }
             }
+
 
             if (gamepad2.left_bumper && !d2Clone.left_bumper) {
                 if (gamepad2.left_bumper) {
@@ -193,7 +214,6 @@ class TeleOP: LinearOpMode() {
     fun haptic(controller: Gamepad, side: Side) {
         Robot(hardwareMap).rumble(controller, side, RumbleStrength.LOW, 300)
     }
-
     fun closeClaws() {
         Robot(hardwareMap).LG.position = TestVars.LGClose
         Robot(hardwareMap).RG.position = TestVars.RGClose

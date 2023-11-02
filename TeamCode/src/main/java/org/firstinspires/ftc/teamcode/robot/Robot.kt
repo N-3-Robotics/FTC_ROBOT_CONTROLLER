@@ -48,6 +48,8 @@ class Robot(hwMap: HardwareMap?) {
     var LG: Servo
     var RG: Servo
 
+    var LOCK: Servo
+    var LAUNCHER: Servo
 
     var IMU: BNO055IMU
 
@@ -102,6 +104,9 @@ class Robot(hwMap: HardwareMap?) {
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
         LG = hardwareMap!!.get(Servo::class.java, "LG")
         RG = hardwareMap!!.get(Servo::class.java, "RG")
+
+        LOCK = hardwareMap!!.get(Servo::class.java, "LOCK")
+        LAUNCHER = hardwareMap!!.get(Servo::class.java, "LAUNCHER")
 
         headingPIDController.setOutputBounds(-0.1, 0.1)
         turnPIDController.setOutputBounds(-1.0, 1.0)
