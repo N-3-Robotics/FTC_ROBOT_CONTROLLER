@@ -99,6 +99,11 @@ class TeleOP: LinearOpMode() {
 
             if (WristState == States.UP) {
                 ROBOT.WRIST.position = TestVars.WristTop
+
+                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
+                    WristState = States.DOWN
+                }
+
             }
             else if (WristState == States.DOWN) {
                 ROBOT.WRIST.position = TestVars.WristLevelPos
@@ -132,8 +137,13 @@ class TeleOP: LinearOpMode() {
 
 
 
-            ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
-            ROBOT.LIFT.power = gamepad2.left_stick_y.toDouble()
+            if (gamepad2.left_trigger > 0) {
+                ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
+            }
+            else {
+                ROBOT.ELEVATOR.power = 0.0
+            }
+            ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
 
             /* DRIVETRAIN SPEED CONTROL */
 

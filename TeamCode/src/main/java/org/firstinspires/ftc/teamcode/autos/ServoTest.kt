@@ -27,8 +27,8 @@ object TestVars{
     @JvmField
     var RGClose: Double = 0.1
 
-
-
+    @JvmField
+    var AUTODOWN: Int = 999
 }
 
 @Autonomous(name="Servo Test", group = "Autonomous")
