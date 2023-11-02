@@ -9,6 +9,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.robot.Robot
 
+
+private enum class SidesAndColours {
+    RED, BLUE, LEFT, RIGHT
+}
+
+private enum class MarkerSide {
+    LEFT, CENTER, RIGHT
+}
+
 @Disabled
 @Autonomous(name = "Cone Parking", group = "Autonomous")
 class Auto: LinearOpMode() {

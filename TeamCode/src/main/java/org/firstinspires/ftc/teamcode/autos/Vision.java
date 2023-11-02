@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
+import org.firstinspires.ftc.robotcore.internal.ftdi.eeprom.FT_EE_Ctrl;
+import org.firstinspires.ftc.robotcore.internal.webserver.websockets.FtcWebSocket;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.*;
 
@@ -24,6 +27,7 @@ public class Vision extends LinearOpMode {
         AprilTagProcessor processor = new AprilTagProcessor.Builder()
                 .setDrawCubeProjection(true)
                 .setDrawTagID(true)
+                .setLensIntrinsics(699.492, 699.492, 327.418, 264.843)
                 .build();
 
 

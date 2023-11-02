@@ -97,14 +97,17 @@ class TeleOP: LinearOpMode() {
                 ROBOT.RG.position = TestVars.RGOpen
             }
 
-            if (WristState == States.UP) {
-                ROBOT.WRIST.position = TestVars.WristTop
+                /* AUTOWRIST ROTATION */
+//            if (WristState == States.UP) {
+//                ROBOT.WRIST.position = TestVars.WristTop
+//
+//                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
+//                    WristState = States.DOWN
+//                }
+//
+//            }
+                /* END WRIST ROTATION */
 
-                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
-                    WristState = States.DOWN
-                }
-
-            }
             else if (WristState == States.DOWN) {
                 ROBOT.WRIST.position = TestVars.WristLevelPos
             }
