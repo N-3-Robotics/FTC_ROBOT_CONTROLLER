@@ -29,6 +29,19 @@ object TestVars{
 
     @JvmField
     var AUTODOWN: Int = 999
+
+    @JvmField
+    var LOCKLock: Double = 0.1
+
+    @JvmField
+    var LOCKUnlock: Double = 0.0
+
+    @JvmField
+    var LAUNCHERStaged: Double = 0.1
+
+    @JvmField
+    var LAUNCHERLaunch: Double = 0.0
+
 }
 
 @Autonomous(name="Servo Test", group = "Autonomous")
@@ -55,4 +68,20 @@ class ServoTest: LinearOpMode() {
 
 
 
+}
+@Autonomous(name="Servo Tune", group = "Autonomous")
+class servoTune: LinearOpMode() {
+    override fun runOpMode() {
+        val ROBOT = Robot(hardwareMap)
+
+        waitForStart()
+
+        while (opModeIsActive()) {
+            ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
+            ROBOT.LOCK.position = TestVars.LOCKUnlock
+            sleep(1000)
+            ROBOT.LAUNCHER.position = TestVars.LAUNCHERLaunch
+            ROBOT.LOCK.position = TestVars.LOCKLock
+        }
+    }
 }

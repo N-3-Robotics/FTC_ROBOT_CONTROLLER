@@ -16,7 +16,7 @@ import java.nio.file.ClosedDirectoryStreamException
 
 
 private enum class States {
-    OPEN, CLOSE, UP, DOWN
+    OPEN, CLOSE, UP, DOWN, LOCKED, UNLOCKED, LAUNCHED, STAGED
 }
 
 @TeleOp(name = "TeleOp")
@@ -43,6 +43,8 @@ class TeleOP: LinearOpMode() {
         var LGSTATE = States.CLOSE
         var RGSTATE = States.CLOSE
         var WristState = States.DOWN
+        var LaunchState = States.STAGED
+        var Locker = States.UNLOCKED
 
 
         /* END - INITIALIZATION */
@@ -131,6 +133,18 @@ class TeleOP: LinearOpMode() {
             else if (WristState == States.DOWN) {
                 ROBOT.WRIST.position = TestVars.WristLevelPos
             }
+            if(Locker == States.LOCKED){
+                ROBOT.LOCK.position = TestVars.LOCKLock
+            }
+            else if (Locker == States.UNLOCKED){
+                ROBOT.LOCK.position = TestVars.LOCKUnlock
+            }
+            if(LaunchState == States.STAGED){
+                ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
+            }
+            else if (Locker == States.LAUNCHED){
+                ROBOT.LAUNCHER.position = TestVars.LAUNCHERLaunch
+            }
 
             if (gamepad2.triangle && !d2Clone.triangle) {
                 if (gamepad2.triangle) {
@@ -141,6 +155,14 @@ class TeleOP: LinearOpMode() {
                 }
             }
 
+            if (gamepad2.square && !d2Clone.square) {
+                if (gamepad2.square) {
+                    if (Locker == States.UNLOCKED)
+                        Locker = States.LOCKED
+                    else
+                        Locker = States.UNLOCKED
+                }
+            }
 
             if (gamepad2.left_bumper && !d2Clone.left_bumper) {
                 if (gamepad2.left_bumper) {
@@ -158,8 +180,17 @@ class TeleOP: LinearOpMode() {
                         RGSTATE = States.OPEN
                 }
             }
-
-
+            /// Has a safety function so that launching the drone is more idiot proof
+            if(gamepad2.right_trigger > 0){
+                if(gamepad2.circle && !d2Clone.circle){
+                    if(gamepad2.circle){
+                        if(LaunchState == States.STAGED)
+                            LaunchState = States.LAUNCHED
+                        else
+                            LaunchState = States.STAGED
+                    }
+                }
+            }
 
             if (gamepad2.left_trigger > 0) {
                 ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
