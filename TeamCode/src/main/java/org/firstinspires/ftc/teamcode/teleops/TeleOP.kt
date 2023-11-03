@@ -95,7 +95,7 @@ class TeleOP: LinearOpMode() {
             /* DRIVER 2 */
 
 
-
+            /* LG STATE MACHINE */
             if (LGSTATE == States.CLOSE) {
                 ROBOT.LG.position = TestVars.LGClose
             }
@@ -104,7 +104,9 @@ class TeleOP: LinearOpMode() {
                 ROBOT.LG.position = TestVars.LGOpen
 
             }
+            /* END LG STATE MACHINE */
 
+            /* RG STATE MACHINE */
             if (RGSTATE == States.CLOSE) {
                 ROBOT.RG.position = TestVars.RGClose
             }
@@ -112,7 +114,9 @@ class TeleOP: LinearOpMode() {
             else if (RGSTATE == States.OPEN) {
                 ROBOT.RG.position = TestVars.RGOpen
             }
-            /// Indicate to driver 2 if the claw is open
+            /* END RG STATE MACHINE */
+
+            /* GRIPPER INDICATORS */
             if (RGSTATE == States.OPEN && LGSTATE == States.OPEN){
                 haptic(gamepad2, Side.BOTH)
             }
@@ -122,6 +126,9 @@ class TeleOP: LinearOpMode() {
             else if (LGSTATE == States.OPEN){
                 haptic(gamepad2, Side.LEFT)
             }
+            /* END GRIPPER INDICATORS */
+
+            /* WRIST STATE MACHINE */
             if (WristState == States.UP) {
                 ROBOT.WRIST.position = TestVars.WristTop
 
@@ -133,19 +140,27 @@ class TeleOP: LinearOpMode() {
             else if (WristState == States.DOWN) {
                 ROBOT.WRIST.position = TestVars.WristLevelPos
             }
+            /* WRIST STATE MACHINE */
+
+            /* LOCK STATE MACHINE */
             if(Locker == States.LOCKED){
                 ROBOT.LOCK.position = TestVars.LOCKLock
             }
             else if (Locker == States.UNLOCKED){
                 ROBOT.LOCK.position = TestVars.LOCKUnlock
             }
+            /* END LOCK STATE MACHINE */
+
+            /* LAUNCER STATE MACHINE */
             if(LaunchState == States.STAGED){
                 ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
             }
             else if (Locker == States.LAUNCHED){
                 ROBOT.LAUNCHER.position = TestVars.LAUNCHERLaunch
             }
+            /* END LAUNCHER STATE MACHINE */
 
+            /* TOGGLE WRIST POSITION */
             if (gamepad2.triangle && !d2Clone.triangle) {
                 if (gamepad2.triangle) {
                     if (WristState == States.UP)
@@ -154,7 +169,9 @@ class TeleOP: LinearOpMode() {
                         WristState = States.UP
                 }
             }
+           /* END TOGGLE WRIST POSITION*/
 
+            /* TOGGLE LOCK */
             if (gamepad2.square && !d2Clone.square) {
                 if (gamepad2.square) {
                     if (Locker == States.UNLOCKED)
@@ -163,7 +180,9 @@ class TeleOP: LinearOpMode() {
                         Locker = States.UNLOCKED
                 }
             }
+            /* END TOGGLE LOCK */
 
+            /* LEFT GRIPPER TOGGLE */
             if (gamepad2.left_bumper && !d2Clone.left_bumper) {
                 if (gamepad2.left_bumper) {
                    if (LGSTATE == States.OPEN)
@@ -172,6 +191,9 @@ class TeleOP: LinearOpMode() {
                         LGSTATE = States.OPEN
                 }
             }
+            /* END LEFT GRIPPER TOGGLE */
+
+            /* RIGHT GRIPPER TOGGLE */
             if (gamepad2.right_bumper && !d2Clone.right_bumper) {
                 if (gamepad2.right_bumper) {
                     if (RGSTATE == States.OPEN)
@@ -180,6 +202,8 @@ class TeleOP: LinearOpMode() {
                         RGSTATE = States.OPEN
                 }
             }
+            /* END RIGHT GRIPPER TOGGLE */
+
             /// Has a safety function so that launching the drone is more idiot proof
             if(gamepad2.right_trigger > 0){
                 if(gamepad2.circle && !d2Clone.circle){
