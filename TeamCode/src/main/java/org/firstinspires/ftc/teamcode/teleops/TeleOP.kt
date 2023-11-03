@@ -45,7 +45,7 @@ class TeleOP: LinearOpMode() {
         var WristState = States.DOWN
         var LaunchState = States.STAGED
         var Locker = States.UNLOCKED
-
+        var Safety = States.LOCKED
 
         /* END - INITIALIZATION */
 
@@ -204,17 +204,27 @@ class TeleOP: LinearOpMode() {
             }
             /* END RIGHT GRIPPER TOGGLE */
 
-            /// Has a safety function so that launching the drone is more idiot proof
-            if(gamepad2.right_trigger > 0){
-                if(gamepad2.circle && !d2Clone.circle){
-                    if(gamepad2.circle){
+            /* Launcher Toggle */
+            if(gamepad2.circle && !d2Clone.circle){
+                if(gamepad2.circle){
+                    if(Safety == States.UNLOCKED)
                         if(LaunchState == States.STAGED)
                             LaunchState = States.LAUNCHED
                         else
                             LaunchState = States.STAGED
-                    }
                 }
             }
+            /* End Launcher Toggle */
+            /* Safety Toggle */
+            if(gamepad2.dpad_up && !d2Clone.dpad_up){
+                if(gamepad2.dpad_up){
+                    if(Safety == States.LOCKED)
+                        Safety = States.UNLOCKED
+                    else
+                        Safety = States.LOCKED
+                }
+            }
+            /* End Safety Toggle */
 
             if (gamepad2.left_trigger > 0) {
                 ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
@@ -258,6 +268,7 @@ class TeleOP: LinearOpMode() {
             telemetry.addData("Elevator Position", ROBOT.ELEVATOR.currentPosition)
             telemetry.addData("Lift Position", ROBOT.LIFT.currentPosition)
             telemetry.addData("Global Heading", ROBOT.IMU.angularOrientation.toAxesOrder(AxesOrder.XYZ).thirdAngle)
+            telemetry.addData("Launcher Safety", Safety)
 
             telemetry.update()
             /* END - ACTION LOOP */
