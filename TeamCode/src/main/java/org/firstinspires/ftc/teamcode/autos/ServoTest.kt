@@ -16,31 +16,31 @@ object TestVars{
     var WristTop: Double = 0.0
 
     @JvmField
-    var LGOpen: Double = 0.1
+    var LGOpen: Double = 0.0
 
     @JvmField
-    var LGClose: Double = 0.0
+    var LGClose: Double = 0.1
 
     @JvmField
-    var RGOpen: Double = 0.0
+    var RGOpen: Double = 0.1
 
     @JvmField
-    var RGClose: Double = 0.1
+    var RGClose: Double = 0.0
 
     @JvmField
     var AUTODOWN: Int = 999
 
     @JvmField
-    var LOCKLock: Double = 0.1
+    var LOCKLock: Double = 0.0
 
     @JvmField
-    var LOCKUnlock: Double = 0.0
+    var LOCKUnlock: Double = 1.0
 
     @JvmField
-    var LAUNCHERStaged: Double = 0.1
+    var LAUNCHERStaged: Double = 0.3
 
     @JvmField
-    var LAUNCHERLaunch: Double = 0.0
+    var LAUNCHERLaunch: Double = 1.0
 
 }
 

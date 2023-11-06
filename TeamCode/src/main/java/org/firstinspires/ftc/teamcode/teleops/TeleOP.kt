@@ -45,7 +45,7 @@ class TeleOP: LinearOpMode() {
         var WristState = States.DOWN
         var LaunchState = States.STAGED
         var Locker = States.UNLOCKED
-        var Safety = States.LOCKED
+        var Safety = true
 
         /* END - INITIALIZATION */
 
@@ -116,16 +116,6 @@ class TeleOP: LinearOpMode() {
             }
             /* END RG STATE MACHINE */
 
-            /* GRIPPER INDICATORS */
-            if (RGSTATE == States.OPEN && LGSTATE == States.OPEN){
-                haptic(gamepad2, Side.BOTH)
-            }
-            else if (RGSTATE == States.OPEN){
-                haptic(gamepad2, Side.RIGHT)
-            }
-            else if (LGSTATE == States.OPEN){
-                haptic(gamepad2, Side.LEFT)
-            }
             /* END GRIPPER INDICATORS */
 
             /* WRIST STATE MACHINE */
@@ -151,11 +141,11 @@ class TeleOP: LinearOpMode() {
             }
             /* END LOCK STATE MACHINE */
 
-            /* LAUNCER STATE MACHINE */
+            /* LAUNChER STATE MACHINE */
             if(LaunchState == States.STAGED){
                 ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
             }
-            else if (Locker == States.LAUNCHED){
+            else if (LaunchState == States.LAUNCHED){
                 ROBOT.LAUNCHER.position = TestVars.LAUNCHERLaunch
             }
             /* END LAUNCHER STATE MACHINE */
@@ -206,22 +196,22 @@ class TeleOP: LinearOpMode() {
 
             /* Launcher Toggle */
             if(gamepad2.circle && !d2Clone.circle){
-                if(gamepad2.circle){
-                    if(Safety == States.UNLOCKED)
-                        if(LaunchState == States.STAGED)
-                            LaunchState = States.LAUNCHED
-                        else
-                            LaunchState = States.STAGED
+                if(gamepad2.circle && Safety == false){
+                    if(LaunchState == States.STAGED)
+                        LaunchState = States.LAUNCHED
+                    else
+                        LaunchState = States.STAGED
                 }
             }
             /* End Launcher Toggle */
+
             /* Safety Toggle */
             if(gamepad2.dpad_up && !d2Clone.dpad_up){
                 if(gamepad2.dpad_up){
-                    if(Safety == States.LOCKED)
-                        Safety = States.UNLOCKED
+                    if(Safety == true)
+                        Safety = false
                     else
-                        Safety = States.LOCKED
+                        Safety = true
                 }
             }
             /* End Safety Toggle */
