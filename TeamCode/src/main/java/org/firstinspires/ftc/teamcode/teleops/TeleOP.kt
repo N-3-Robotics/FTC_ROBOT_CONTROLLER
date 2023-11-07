@@ -141,7 +141,7 @@ class TeleOP: LinearOpMode() {
             }
             /* END LOCK STATE MACHINE */
 
-            /* LAUNChER STATE MACHINE */
+            /* LAUNCHER STATE MACHINE */
             if(LaunchState == States.STAGED){
                 ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
             }
@@ -181,6 +181,7 @@ class TeleOP: LinearOpMode() {
                         LGSTATE = States.OPEN
                 }
             }
+
             /* END LEFT GRIPPER TOGGLE */
 
             /* RIGHT GRIPPER TOGGLE */
@@ -216,6 +217,8 @@ class TeleOP: LinearOpMode() {
             }
             /* End Safety Toggle */
 
+
+            /* ELEVATOR CONTROLS */
             if (gamepad2.left_trigger > 0) {
                 ROBOT.ELEVATOR.power = -gamepad2.right_stick_y.toDouble()
             }
@@ -223,6 +226,7 @@ class TeleOP: LinearOpMode() {
                 ROBOT.ELEVATOR.power = 0.0
             }
             ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
+            /* END ELEVATOR CONTROLS */
 
             /* DRIVETRAIN SPEED CONTROL */
 
