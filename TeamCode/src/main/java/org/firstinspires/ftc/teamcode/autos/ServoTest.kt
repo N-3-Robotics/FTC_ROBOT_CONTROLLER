@@ -79,9 +79,11 @@ class servoTune: LinearOpMode() {
         while (opModeIsActive()) {
             ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
             ROBOT.LOCK.position = TestVars.LOCKUnlock
-            sleep(1000)
-            ROBOT.LAUNCHER.position = TestVars.LAUNCHERLaunch
-            ROBOT.LOCK.position = TestVars.LOCKLock
+
+            telemetry.addData("LAUNCHER POS", ROBOT.LAUNCHER.position)
+            telemetry.addData("LOCK POS", ROBOT.LOCK.position)
+
+            telemetry.update()
         }
     }
 }

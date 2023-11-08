@@ -17,13 +17,14 @@ import com.acmerobotics.roadrunner.trajectory.TrajectoryMarker;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TrajectorySegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TurnSegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.WaitSegment;
 import org.firstinspires.ftc.teamcode.util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.util.LogFiles;
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class TrajectorySequenceRunner {
 
     private final NanoClock clock;
 
-    private TrajectorySequence currentTrajectorySequence;
+    private org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence currentTrajectorySequence;
     private double currentSegmentStartTime;
     private int currentSegmentIndex;
     private int lastSegmentIndex;
@@ -86,7 +87,7 @@ public class TrajectorySequenceRunner {
         dashboard.setTelemetryTransmissionInterval(25);
     }
 
-    public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {
+    public void followTrajectorySequenceAsync(org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence trajectorySequence) {
         currentTrajectorySequence = trajectorySequence;
         currentSegmentStartTime = clock.seconds();
         currentSegmentIndex = 0;
