@@ -38,6 +38,6 @@ public class DriveConstants {
     public static double MAX_ACCELERATION = 35;
 
     public static double MAX_ANGULAR_VELOCITY = Math.toRadians(270);
-    public static double trackWidth = 14;
+    public static double trackWidth = 15.5;
 
 }
