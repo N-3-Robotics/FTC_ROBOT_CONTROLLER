@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.robot
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
-import com.acmerobotics.robomatic.util.PIDController
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import com.qualcomm.robotcore.hardware.*
@@ -80,9 +79,6 @@ class Robot(hwMap: HardwareMap?) {
 
     private var hardwareMap: HardwareMap? = null
 
-    var headingPIDController = PIDController(heading_kP, heading_kI, heading_kD)
-    var turnPIDController = PIDController(turn_kP, turn_kI, turn_kD)
-    var drivePIDController = PIDController(drive_kP, drive_kI, drive_kD)
 
     init {
         hardwareMap = hwMap
@@ -107,11 +103,6 @@ class Robot(hwMap: HardwareMap?) {
 
         LOCK = hardwareMap!!.get(Servo::class.java, "LOCK")
         LAUNCHER = hardwareMap!!.get(Servo::class.java, "LAUNCHER")
-
-        headingPIDController.setOutputBounds(-0.1, 0.1)
-        turnPIDController.setOutputBounds(-1.0, 1.0)
-        drivePIDController.setOutputBounds(-1.0, 1.0)
-
 
         FL.direction = DcMotorSimple.Direction.REVERSE
         BL.direction = DcMotorSimple.Direction.REVERSE
@@ -293,7 +284,6 @@ class Robot(hwMap: HardwareMap?) {
         }
     }
     fun turnRight(angle: Int = -90){
-        turnPIDController.reset()
 
         autoMode = TURN
 
@@ -322,7 +312,6 @@ class Robot(hwMap: HardwareMap?) {
 //    }
 
     fun turnLeft(angle: Int = 90){
-        turnPIDController.reset()
 
         autoMode = TURN
 
