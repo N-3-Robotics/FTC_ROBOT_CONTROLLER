@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class CloseBlue extends LinearOpMode {
+public class CloseRed extends LinearOpMode {
 
     RobotEx robot = RobotEx.getInstance();
 
@@ -87,8 +87,8 @@ public class CloseBlue extends LinearOpMode {
 
 //      ONLY PARKING FROM FAR SIDE
         drive.driveForwardFromInchesBB(((20 - robot.getLength())/2)*3/4);
-        turn.turnToAngle(Math.toRadians(-90));
-        drive.driveForwardFromInchesBB(36.0*3/4);
+        turn.turnToAngle(Math.toRadians(90));
+        drive.driveForwardFromInchesBB(40.0*3/4);
         RG.setPosition(RGOpen);
         LG.setPosition(LGOpen);
         sleep(2000);
