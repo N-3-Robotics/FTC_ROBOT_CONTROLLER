@@ -12,8 +12,12 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.internal.ftdi.eeprom.FT_EE_Ctrl;
 import org.firstinspires.ftc.robotcore.internal.webserver.websockets.FtcWebSocket;
+import org.firstinspires.ftc.teamcode.vision.simulatortests.ApriltagDetectionPipeline;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.*;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous(name = "Vision", group = "Autonomous")
 public class Vision extends LinearOpMode {
@@ -36,8 +40,6 @@ public class Vision extends LinearOpMode {
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(640,480))
                 .build();
-
-
 
 
         waitForStart();

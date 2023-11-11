@@ -2,23 +2,20 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.utilities.robot.RobotEx;
 import org.firstinspires.ftc.teamcode.utilities.robot.movement.EncoderDrive;
 import org.firstinspires.ftc.teamcode.utilities.robot.movement.MotionProfileLocalizerLineDrive;
 import org.firstinspires.ftc.teamcode.vision.simulatortests.ApriltagDetectionPipeline;
-import org.firstinspires.ftc.teamcode.vision.simulatortests.ParkingPosition;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class TestAuto extends LinearOpMode {
+public class FarBlue extends LinearOpMode {
 
     RobotEx robot = RobotEx.getInstance();
 
@@ -68,12 +65,20 @@ public class TestAuto extends LinearOpMode {
         if (isStopRequested()) return;
 
         // robot.drivetrain.enableAntiTip();
-        EncoderDrive robotDrive = new EncoderDrive(this, telemetry);
-        MotionProfileLocalizerLineDrive robotDrivetrain = new MotionProfileLocalizerLineDrive(this, telemetry);
+        EncoderDrive drive = new EncoderDrive(this, telemetry);
+        MotionProfileLocalizerLineDrive turn = new MotionProfileLocalizerLineDrive(this, telemetry);
 
 
         camera.stopStreaming();
 
-        robotDrivetrain.forwardX(24);
+
+//      ONLY PARKING FROM FAR SIDE
+        drive.driveForwardFromInchesBB((48 + ((24 - robot.getLength())/2))*3/4);
+        turn.turnToAngle(Math.toRadians(-90));
+        drive.driveForwardFromInchesBB(72.0*3/4);
+        turn.turnToAngle(Math.toRadians(-180));
+        drive.driveForwardFromInchesBB(48.0*3/4);
+        turn.turnToAngle(Math.toRadians(-90));
+        drive.driveForwardFromInchesBB(24.0*3/4);
     }
 }

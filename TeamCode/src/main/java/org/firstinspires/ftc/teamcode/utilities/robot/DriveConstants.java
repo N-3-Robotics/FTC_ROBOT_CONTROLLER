@@ -3,26 +3,26 @@ package org.firstinspires.ftc.teamcode.utilities.robot;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-import org.firstinspires.ftc.teamcode.utilities.math.linearalgebra.Pose;
-
 @Config
 public class DriveConstants {
 
 
-    public static final double WHEEL_TICKS = 537.7;
-    public static final double WHEEL_SIZE = 3.78/2;
+    public static final double TICKS_PER_REV = 537.7;
+
+    // assuming all of this is right, what could cause the measured distance to be less that the actual distance travelled?
+    public static final double WHEEL_SIZE = 48 / 25.4;
 
     public static final double INCHES_PER_REVOLUTION = 2 * WHEEL_SIZE * Math.PI;
 
     public static double getEncoderTicksFromInches(double inches) {
-        return (inches / DriveConstants.INCHES_PER_REVOLUTION) * DriveConstants.WHEEL_TICKS;
+        return (inches / DriveConstants.INCHES_PER_REVOLUTION) * DriveConstants.TICKS_PER_REV;
     }
 
     public static double getInchesFromEncoderTicks(double ticks) {
-        return (ticks / DriveConstants.WHEEL_TICKS) * DriveConstants.INCHES_PER_REVOLUTION;
+        return (ticks / DriveConstants.TICKS_PER_REV) * DriveConstants.INCHES_PER_REVOLUTION;
     }
 
-    public static double BANG_BANG_POWER = -0.5;
+    public static double BANG_BANG_POWER = -0.3;
     public static double TICK_THRESHOLD = 50;
     public static double ANGLE_AT_TIME = 0;
     public static double MAX_TURN_TIME = 1.75;

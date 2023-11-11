@@ -22,6 +22,8 @@ import java.util.List;
 public class RobotEx {
     private static RobotEx robotInstance = null;
 
+    private static Double length = 13.5;
+
     List<LynxModule> allHubs;
 
     public InternalIMU internalIMU = InternalIMU.getInstance();
@@ -152,5 +154,9 @@ public class RobotEx {
     public void destroy() {
         RobotEx.robotInstance = null;
         internalIMU.destroy();
+    }
+
+    public Double getLength() {
+        return length;
     }
 }
