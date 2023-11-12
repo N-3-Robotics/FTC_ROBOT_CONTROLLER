@@ -42,6 +42,11 @@ object TestVars{
     @JvmField
     var LAUNCHERLaunch: Double = 0.0
 
+    @JvmField
+    var SAFETYLocked: Double = 0.0
+
+    @JvmField
+    var SAFETYUnlocked: Double = 0.0
 }
 
 @Autonomous(name="Servo Test", group = "Autonomous")

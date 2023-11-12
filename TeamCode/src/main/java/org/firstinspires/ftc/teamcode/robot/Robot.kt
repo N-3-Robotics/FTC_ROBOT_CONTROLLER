@@ -2,31 +2,21 @@
 package org.firstinspires.ftc.teamcode.robot
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.qualcomm.hardware.bosch.BNO055IMU
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor
-import com.qualcomm.robotcore.hardware.*
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.teamcode.utilities.AutoMode.*
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.AutoDriveTolerance
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.AutoTurnTolerance
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.drive_kD
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.drive_kI
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.drive_kP
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.heading_kD
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.heading_kI
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.heading_kP
+import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.Gamepad
+import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.teamcode.utilities.AutoMode.MANUAL
+import org.firstinspires.ftc.teamcode.utilities.AutoMode.TURN
+import org.firstinspires.ftc.teamcode.utilities.AutoMode.UNKNOWN
 import org.firstinspires.ftc.teamcode.utilities.DriveConstants.strafeMultiplier
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.turn_kD
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.turn_kI
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.turn_kP
-import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.radToDeg
 import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.ticksToInches
 import org.firstinspires.ftc.teamcode.utilities.RumbleStrength
 import org.firstinspires.ftc.teamcode.utilities.Side
-import kotlin.math.abs
 
 
 class Robot(hwMap: HardwareMap?) {
@@ -48,6 +38,7 @@ class Robot(hwMap: HardwareMap?) {
     var RG: Servo
 
     var LOCK: Servo
+    var SAFETY: Servo
     var LAUNCHER: Servo
 
     var IMU: BNO055IMU
@@ -102,6 +93,7 @@ class Robot(hwMap: HardwareMap?) {
         RG = hardwareMap!!.get(Servo::class.java, "RG")
 
         LOCK = hardwareMap!!.get(Servo::class.java, "LOCK")
+        SAFETY = hardwareMap!!.get(Servo::class.java, "SAFETY")
         LAUNCHER = hardwareMap!!.get(Servo::class.java, "LAUNCHER")
 
         FL.direction = DcMotorSimple.Direction.REVERSE

@@ -5,15 +5,13 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Gamepad
-import com.qualcomm.robotcore.hardware.Gamepad.LED_DURATION_CONTINUOUS
 import com.qualcomm.robotcore.hardware.Gamepad.LedEffect
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.teamcode.autos.TestVars
 import org.firstinspires.ftc.teamcode.robot.Robot
-import org.firstinspires.ftc.teamcode.utilities.*
-import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.rED
-import java.nio.file.ClosedDirectoryStreamException
+import org.firstinspires.ftc.teamcode.utilities.RumbleStrength
+import org.firstinspires.ftc.teamcode.utilities.Side
 
 
 private enum class States {
@@ -151,6 +149,15 @@ class TeleOP: LinearOpMode() {
             }
             /* END LAUNCHER STATE MACHINE */
 
+            /* SAFETY STATE MACHINE */
+            if (Safety) {
+                ROBOT.SAFETY.position = TestVars.SAFETYLocked
+            }
+            else {
+                ROBOT.SAFETY.position = TestVars.SAFETYUnlocked
+            }
+            /* END SAFETY STATE MACHINE */
+
             /* TOGGLE WRIST POSITION */
             if (gamepad2.triangle && !d2Clone.triangle) {
                 if (gamepad2.triangle) {
@@ -198,7 +205,7 @@ class TeleOP: LinearOpMode() {
 
             /* Launcher Toggle */
             if(gamepad2.circle && !d2Clone.circle){
-                if(gamepad2.circle && Safety == false){
+                if(gamepad2.circle && !Safety){
                     if(LaunchState == States.STAGED)
                         LaunchState = States.LAUNCHED
                     else
@@ -210,10 +217,8 @@ class TeleOP: LinearOpMode() {
             /* Safety Toggle */
             if(gamepad2.dpad_up && !d2Clone.dpad_up){
                 if(gamepad2.dpad_up){
-                    if(Safety == true)
-                        Safety = false
-                    else
-                        Safety = true
+                    Safety = Safety != true // Safety = the opposite of what it is.
+                    haptic(gamepad2, Side.RIGHT)
                 }
             }
             /* End Safety Toggle */
