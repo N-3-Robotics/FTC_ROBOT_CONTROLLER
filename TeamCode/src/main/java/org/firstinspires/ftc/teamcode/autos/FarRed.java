@@ -32,6 +32,7 @@ public class FarRed extends LinearOpMode {
 
         robot.init(hardwareMap, telemetry);
 
+        /*
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         sleeveDetection = new ApriltagDetectionPipeline();
@@ -47,7 +48,7 @@ public class FarRed extends LinearOpMode {
 
             @Override
             public void onError(int errorCode) {}
-        });
+        });*/
 
         /* while (!isStarted()) {
             telemetry.addData("ROTATION: ", sleeveDetection.getParkingPosition());
@@ -55,27 +56,24 @@ public class FarRed extends LinearOpMode {
         } */
 
         // scan sleeve
-
+        double LGClose = 0.0;
+        double LGOpen = 0.1;
+        double RGClose = 0.1;
+        double RGOpen = 0.0;
+        double SAFETYLocked = 0.4;
+        double SAFETYUnlocked = 0.0;
         Servo LG = hardwareMap.get(Servo.class, "LG");
         Servo RG = hardwareMap.get(Servo.class, "RG");
-
-        double LGClose = 0.0;
-        double LGOpen = 0.2;
-        double RGClose = 0.1;
-        double RGOpen = -0.1
+        Servo SAFETY = hardwareMap.get(Servo.class, "SAFETY");
 
 
-
-
-                ;
-
-        while (!isStarted()) {
+        while(!isStarted()) {
             LG.setPosition(LGClose);
             RG.setPosition(RGClose);
-            telemetry.addData("ROTATION:", sleeveDetection.getParkingPosition());
-            telemetry.addData("RG Position:", RG.getPosition());
+            SAFETY.setPosition(SAFETYLocked);
+            //telemetry.addData("ROTATION:", sleeveDetection.getParkingPosition());
             telemetry.addData("LG Position:", LG.getPosition());
-            telemetry.update();
+            telemetry.addData("RG Position:", RG.getPosition());
         }
         // Initialize the robot
         waitForStart();
@@ -91,7 +89,7 @@ public class FarRed extends LinearOpMode {
         MotionProfileLocalizerLineDrive turn = new MotionProfileLocalizerLineDrive(this, telemetry);
 
 
-        camera.stopStreaming();
+        //camera.stopStreaming();
 
 
 //      ONLY PARKING FROM FAR SIDE

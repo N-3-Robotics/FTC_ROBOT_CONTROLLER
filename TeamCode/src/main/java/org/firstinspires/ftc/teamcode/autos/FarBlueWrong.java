@@ -30,7 +30,7 @@ public class FarBlueWrong extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         robot.init(hardwareMap, telemetry);
-
+        /*
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         sleeveDetection = new ApriltagDetectionPipeline();
@@ -47,34 +47,31 @@ public class FarBlueWrong extends LinearOpMode {
             @Override
             public void onError(int errorCode) {}
         });
-
+        */
         /* while (!isStarted()) {
             telemetry.addData("ROTATION: ", sleeveDetection.getParkingPosition());
             telemetry.update();
         } */
 
         // scan sleeve
-
+        double LGClose = 0.0;
+        double LGOpen = 0.1;
+        double RGClose = 0.1;
+        double RGOpen = 0.0;
+        double SAFETYLocked = 0.4;
+        double SAFETYUnlocked = 0.0;
         Servo LG = hardwareMap.get(Servo.class, "LG");
         Servo RG = hardwareMap.get(Servo.class, "RG");
-
-        double LGClose = 0.0;
-        double LGOpen = 0.2;
-        double RGClose = 0.1;
-        double RGOpen = -0.1
+        Servo SAFETY = hardwareMap.get(Servo.class, "SAFETY");
 
 
-
-
-                ;
-
-        while (!isStarted()) {
+        while(!isStarted()) {
             LG.setPosition(LGClose);
             RG.setPosition(RGClose);
-            telemetry.addData("ROTATION:", sleeveDetection.getParkingPosition());
-            telemetry.addData("RG Position:", RG.getPosition());
+            SAFETY.setPosition(SAFETYLocked);
+            //telemetry.addData("ROTATION:", sleeveDetection.getParkingPosition());
             telemetry.addData("LG Position:", LG.getPosition());
-            telemetry.update();
+            telemetry.addData("RG Position:", RG.getPosition());
         }
         // Initialize the robot
         waitForStart();
@@ -90,20 +87,20 @@ public class FarBlueWrong extends LinearOpMode {
         MotionProfileLocalizerLineDrive turn = new MotionProfileLocalizerLineDrive(this, telemetry);
 
 
-        camera.stopStreaming();
+        //camera.stopStreaming();
 
 
 //      ONLY PARKING FROM FAR SIDE
         drive.driveForwardFromInchesBB((48 + ((24 - robot.getLength())/2))*3/4);
         turn.turnToAngle(Math.toRadians(-90));
         drive.driveForwardFromInchesBB(72.0*3/4);
-        turn.turnToAngle(Math.toRadians(-180));
-        drive.driveForwardFromInchesBB(20*3/4);
-        turn.turnToAngle(Math.toRadians(-90));
-        drive.driveForwardFromInchesBB(24.0*3/4);
+        //turn.turnToAngle(Math.toRadians(-180));
+        //drive.driveForwardFromInchesBB(20*3/4);
+        //turn.turnToAngle(Math.toRadians(-90));
+        drive.driveForwardFromInchesBB(23.0*3/4);
         LG.setPosition(LGOpen);
         RG.setPosition(RGOpen);
         sleep(2000);
-        drive.driveForwardFromInchesBB(-3*3/4);
+        drive.driveForwardFromInchesBB(-2*3/4);
     }
 }

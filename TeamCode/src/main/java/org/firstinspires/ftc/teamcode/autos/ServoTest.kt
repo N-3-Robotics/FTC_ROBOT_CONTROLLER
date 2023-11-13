@@ -43,7 +43,7 @@ object TestVars{
     var LAUNCHERLaunch: Double = 0.0
 
     @JvmField
-    var SAFETYLocked: Double = 0.0
+    var SAFETYLocked: Double = 0.4
 
     @JvmField
     var SAFETYUnlocked: Double = 0.0
@@ -54,7 +54,6 @@ class ServoTest: LinearOpMode() {
 
     override fun runOpMode() {
         val ROBOT = Robot(hardwareMap)
-
         waitForStart()
 
         while (opModeIsActive()) {
@@ -64,6 +63,8 @@ class ServoTest: LinearOpMode() {
             ROBOT.LG.position = TestVars.LGOpen
 
             ROBOT.WRIST.position = TestVars.WristLevelPos
+            ROBOT.LAUNCHER.position = TestVars.LAUNCHERStaged
+            ROBOT.SAFETY.position = TestVars.SAFETYLocked
 
             sleep(500)
 

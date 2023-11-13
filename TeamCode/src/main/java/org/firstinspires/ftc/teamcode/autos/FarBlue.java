@@ -28,21 +28,24 @@ public class FarBlue extends LinearOpMode {
         } */
 
         // scan sleeve
-
+        double LGClose = 0.0;
+        double LGOpen = 0.1;
+        double RGClose = 0.1;
+        double RGOpen = 0.0;
+        double SAFETYLocked = 0.4;
+        double SAFETYUnlocked = 0.0;
         Servo LG = hardwareMap.get(Servo.class, "LG");
         Servo RG = hardwareMap.get(Servo.class, "RG");
+        Servo SAFETY = hardwareMap.get(Servo.class, "SAFETY");
 
-        double LGClose = 0.0;
-        double LGOpen = 0.2;
-        double RGClose = 0.1;
-        double RGOpen = -0.1;
 
-        while (!isStarted()) {
+        while(!isStarted()) {
             LG.setPosition(LGClose);
             RG.setPosition(RGClose);
-            telemetry.addData("RG Position:", RG.getPosition());
+            SAFETY.setPosition(SAFETYLocked);
+            //telemetry.addData("ROTATION:", sleeveDetection.getParkingPosition());
             telemetry.addData("LG Position:", LG.getPosition());
-            telemetry.update();
+            telemetry.addData("RG Position:", RG.getPosition());
         }
         // Initialize the robot
         waitForStart();

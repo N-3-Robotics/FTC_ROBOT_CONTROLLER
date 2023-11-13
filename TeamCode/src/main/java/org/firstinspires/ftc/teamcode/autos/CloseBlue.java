@@ -32,10 +32,21 @@ public class CloseBlue extends LinearOpMode {
         double LGOpen = 0.1;
         double RGClose = 0.1;
         double RGOpen = 0.0;
+        double SAFETYLocked = 0.4;
+        double SAFETYUnlocked = 0.0;
         Servo LG = hardwareMap.get(Servo.class, "LG");
         Servo RG = hardwareMap.get(Servo.class, "RG");
+        Servo SAFETY = hardwareMap.get(Servo.class, "SAFETY");
 
 
+        while(!isStarted()) {
+            LG.setPosition(LGClose);
+            RG.setPosition(RGClose);
+            SAFETY.setPosition(SAFETYLocked);
+            //telemetry.addData("ROTATION:", sleeveDetection.getParkingPosition());
+            telemetry.addData("LG Position:", LG.getPosition());
+            telemetry.addData("RG Position:", RG.getPosition());
+        }
 
         waitForStart();
 
