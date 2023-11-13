@@ -19,6 +19,8 @@ object TestVars{
 
     @JvmField
     var RGOpen: Double = 0.0
+    @JvmField
+    var RGClose: Double = 0.0
 
 }
 
