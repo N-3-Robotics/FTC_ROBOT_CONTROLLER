@@ -62,7 +62,7 @@ class TeleOP: LinearOpMode() {
         waitForStart()
         /* END - STARTING ROBOT */
 
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             telemetry.addData("Loop Time", timer.milliseconds())
             timer.reset()
 
@@ -72,14 +72,24 @@ class TeleOP: LinearOpMode() {
                     ROBOT.WRIST.position = TestVars.WristLevelPos
                 }
             }
-            if (gamepad2.left_bumper && !d2Clone.left_bumper){
-                if (gamepad2.left_bumper){
+            if (gamepad2.left_bumper && !d2Clone.left_bumper) {
+                if (gamepad2.left_bumper) {
                     ROBOT.LG.position = TestVars.LGOpen
                 }
             }
-            if (gamepad2.right_bumper && !d2Clone.right_bumper){
-                if (gamepad2.right_bumper){
+            if (gamepad2.right_bumper && !d2Clone.right_bumper) {
+                if (gamepad2.right_bumper) {
                     ROBOT.RG.position = TestVars.RGOpen
+                }
+            }
+            if (gamepad2.circle && !d2Clone.circle) {
+                if (gamepad2.circle) {
+                    ROBOT.LG.position = TestVars.LGClose
+                }
+            }
+            if (gamepad2.cross && !d2Clone.cross) {
+                if (gamepad2.cross) {
+
                 }
             }
 
