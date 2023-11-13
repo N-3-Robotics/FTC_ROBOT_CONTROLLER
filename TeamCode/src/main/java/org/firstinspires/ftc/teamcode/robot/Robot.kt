@@ -10,13 +10,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.teamcode.utilities.AutoMode.MANUAL
-import org.firstinspires.ftc.teamcode.utilities.AutoMode.TURN
-import org.firstinspires.ftc.teamcode.utilities.AutoMode.UNKNOWN
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.strafeMultiplier
-import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.ticksToInches
-import org.firstinspires.ftc.teamcode.utilities.RumbleStrength
-import org.firstinspires.ftc.teamcode.utilities.Side
+import org.firstinspires.ftc.teamcode.robot.AutoMode.MANUAL
+import org.firstinspires.ftc.teamcode.robot.AutoMode.TURN
+import org.firstinspires.ftc.teamcode.robot.AutoMode.UNKNOWN
+import org.firstinspires.ftc.teamcode.robot.DriveConstants.strafeMultiplier
+import org.firstinspires.ftc.teamcode.robot.QOL.Companion.ticksToInches
 
 
 class Robot(hwMap: HardwareMap?) {
