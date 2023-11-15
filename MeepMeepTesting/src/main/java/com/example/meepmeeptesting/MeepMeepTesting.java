@@ -15,9 +15,6 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-36, 72, Math.toRadians(-90)))
-                                .addDisplacementMarker(() -> {
-
-                                })
                                 .lineToLinearHeading(new Pose2d(-36, 0, Math.toRadians(0)))
                                 .lineTo(new Vector2d(36, 0))
                                 .lineTo(new Vector2d(36, 36))
