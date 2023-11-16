@@ -18,6 +18,7 @@ public class MeepMeepTesting {
                                 .lineToLinearHeading(new Pose2d(-36, 0, Math.toRadians(0)))
                                 .lineTo(new Vector2d(36, 0))
                                 .lineTo(new Vector2d(36, 36))
+                                .lineTo(new Vector2d(18, 36))
                                 .build()
                 );
 

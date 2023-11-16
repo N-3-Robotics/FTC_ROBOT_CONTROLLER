@@ -34,7 +34,7 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-    public static final boolean RUN_USING_ENCODER = false;
+    public static final boolean RUN_USING_ENCODER = true;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
             25.767526266072583);
 
@@ -47,8 +47,8 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 1.8898; // in
-    public static double GEAR_RATIO = 2; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.5; // in
+    public static double GEAR_RATIO = 131.5/64.80770150812624; // output (wheel) speed / input (motor) speed
+    public static double TRACK_WIDTH = 7.92; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -90,7 +90,7 @@ public class DriveConstants {
      */
     public static double MAX_VEL = 23.58906633389533;
     public static double MAX_ACCEL = 20;
-    public static double MAX_ANG_VEL = Math.toRadians(194.00321032258066);
+    public static double MAX_ANG_VEL = Math.toRadians(139.3000142354959);
     public static double MAX_ANG_ACCEL = Math.toRadians(194.00321032258066);
 
 
