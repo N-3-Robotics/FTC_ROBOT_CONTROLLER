@@ -39,6 +39,8 @@ class Robot(hwMap: HardwareMap?) {
     var SAFETY: Servo
     var LAUNCHER: Servo
 
+    var RO: DcMotorEx
+
     var IMU: BNO055IMU
 
     val trackWidth = 12.0
@@ -89,6 +91,8 @@ class Robot(hwMap: HardwareMap?) {
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
         LG = hardwareMap!!.get(Servo::class.java, "LG")
         RG = hardwareMap!!.get(Servo::class.java, "RG")
+
+        RO = hardwareMap!!.get(DcMotorEx::class.java, "RO")
 
         LOCK = hardwareMap!!.get(Servo::class.java, "LOCK")
         SAFETY = hardwareMap!!.get(Servo::class.java, "SAFETY")
