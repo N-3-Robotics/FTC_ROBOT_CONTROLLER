@@ -1,7 +1,5 @@
 package com.example.meepmeeptesting;
 
-import static java.lang.Thread.sleep;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
@@ -19,7 +17,8 @@ public class MeepMeepTesting {
                         drive.trajectorySequenceBuilder(new Pose2d(-36, 72, Math.toRadians(-90)))
                                 .lineToLinearHeading(new Pose2d(-36, 0, Math.toRadians(0)))
                                 .lineTo(new Vector2d(36, 0))
-                                .lineTo(new Vector2d(36, 38))
+                                .lineTo(new Vector2d(36, 36))
+                                .lineTo(new Vector2d(18, 36))
                                 .build()
                 );
 
