@@ -30,6 +30,8 @@ class Robot(hwMap: HardwareMap?) {
 
     var ELEVATOR: DcMotorEx
 
+    var PL: DcMotorEx
+
     var WRIST: Servo
 
     var LG: Servo
@@ -87,6 +89,8 @@ class Robot(hwMap: HardwareMap?) {
         LIFT.direction = DcMotorSimple.Direction.REVERSE
 
         ELEVATOR = hardwareMap!!.get(DcMotorEx::class.java, "ELEVATOR")
+
+        PL = hardwareMap!!.get(DcMotorEx::class.java, "PL")
 
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
         LG = hardwareMap!!.get(Servo::class.java, "LG")

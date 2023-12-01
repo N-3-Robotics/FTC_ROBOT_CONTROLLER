@@ -223,6 +223,10 @@ class TeleOP: LinearOpMode() {
             }
             /* End Safety Toggle */
 
+            /* NEW LAUNCHER */
+            ROBOT.PL.power = if (gamepad2.touchpad) {0.8} else {0.0}
+            /* END NEW LAUNCHER */
+
 
             /* ELEVATOR CONTROLS */
             if (gamepad2.left_trigger > 0) {
