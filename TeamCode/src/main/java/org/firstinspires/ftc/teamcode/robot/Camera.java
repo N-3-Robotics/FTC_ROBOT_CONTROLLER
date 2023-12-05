@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
-import org.firstinspires.ftc.teamcode.pipelines.PixelFinder;
+import org.firstinspires.ftc.teamcode.pipelines.BlueCubeFinder;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -14,13 +15,13 @@ public class Camera {
     private OpenCvWebcam webcam;
     private HardwareMap hardwareMap;
 
-    private PixelFinder p1;
+    private BlueCubeFinder p1;
 
     private AprilTagPipeline p2;
 
 
-    public Camera(HardwareMap hw) { // hardware map from the base class is a parameter
-        p1 = new PixelFinder(); // initialize your pipeline classes
+    public Camera(HardwareMap hw, Telemetry telemetry) { // hardware map from the base class is a parameter
+        p1 = new BlueCubeFinder(telemetry); // initialize your pipeline classes
         p2 = new AprilTagPipeline(0.032, 699.491728169, 699.491728169, 327.417804563, 264.843155529);
 
         this.hardwareMap = hw;    //Configure the Camera in hardwaremap
