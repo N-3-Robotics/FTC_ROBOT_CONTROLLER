@@ -30,7 +30,7 @@ public class RedCubeFinder extends OpenCvPipeline {
 
     Telemetry telemetry;
 
-    private String pos = "UNKOWN";
+    private String pos = "UNKNOWN";
 
     public RedCubeFinder(Telemetry telemetry) {
         this.telemetry = telemetry;

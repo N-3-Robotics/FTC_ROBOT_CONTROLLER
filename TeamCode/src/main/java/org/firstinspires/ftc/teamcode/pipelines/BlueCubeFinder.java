@@ -21,7 +21,7 @@ public class BlueCubeFinder extends OpenCvPipeline {
 
     Telemetry telemetry;
 
-    private String pos = "UNKOWN";
+    private String pos = "UNKNOWN";
 
     public BlueCubeFinder(Telemetry telemetry) {
         this.telemetry = telemetry;
