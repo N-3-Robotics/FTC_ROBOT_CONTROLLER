@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode.opmodes.autos
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive
 import org.firstinspires.ftc.teamcode.opmodes.autos.Alliance.*
 import org.firstinspires.ftc.teamcode.opmodes.autos.Position.*
 import org.firstinspires.ftc.teamcode.robot.Camera
-import org.firstinspires.ftc.teamcode.robot.Robot
+//import org.firstinspires.ftc.teamcode.robot.Robot
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence
 import java.util.LinkedList
 import java.util.Queue
@@ -33,16 +34,18 @@ class Auto: LinearOpMode() {
         var pathToFollow: Queue<TrajectorySequence> = LinkedList()
 
 
+
 //        /* CONFIGURE STARTING POSE*/
-        if (ALLIANCE == BLUE && POSITION == LEFT) {
-            StartPose = Pose2d(12.0, 72.0 - 17 / 2, Math.toRadians(0.0))
+       /* if (ALLIANCE == BLUE && POSITION == LEFT) {
+            StartPose = Pose2d(12.0, 72.0 - 17 / 2, Math.toRadians(90.0))
         } else if (ALLIANCE == BLUE && POSITION == RIGHT) {
             StartPose = Pose2d(-35.0, 72.0 - 17 / 2, Math.toRadians(0.0))
         } else if (ALLIANCE == RED && POSITION == LEFT) {
             StartPose = Pose2d(-35.0, -72.0 + 17 / 2, Math.toRadians(180.0))
         } else if (ALLIANCE == RED && POSITION == RIGHT) {
             StartPose = Pose2d(12.0, -72.0 + 17 / 2, Math.toRadians(180.0))
-        }
+        } */
+        StartPose = Pose2d(12.0, 72.0 - 17/2, Math.toRadians(90.0))
         /* END CONFIGURE STARTING POSE */
 
 
@@ -101,9 +104,12 @@ class Auto: LinearOpMode() {
                 .build()
 
         val returnToStartPos = DRIVE.trajectorySequenceBuilder(DRIVE.poseEstimate)
-                .lineTo(StartPose.vec())
+                //.lineTo(StartPose.vec())
+                //.build()
+                .back(48 - (17.0 / 2.0))
                 .build()
 
+        val park = DRIVE.trajectorySequenceBuilder(DRIVE.poseEstimate)
 
 
         /* END SEQUENCES */
@@ -141,22 +147,24 @@ class Auto: LinearOpMode() {
     }
 
     fun toggleLeftClaw() {
-        val robot = Robot(hardwareMap)
-        if (robot.LG.position == TestVars.LGClose) {
-            robot.LG.position = TestVars.LGOpen
+        var LG: Servo
+        LG = hardwareMap!!.get(Servo::class.java, "LG")
+        if (LG.position == TestVars.LGClose) {
+            LG.position = TestVars.LGOpen
         }
         else {
-            robot.LG.position = TestVars.LGClose
+            LG.position = TestVars.LGClose
         }
     }
 
     fun toggleRightClaw() {
-        val robot = Robot(hardwareMap)
-        if (robot.RG.position == TestVars.RGClose) {
-            robot.RG.position = TestVars.RGOpen
+        var RG: Servo
+        RG = hardwareMap!!.get(Servo::class.java, "RG")
+        if (RG.position == TestVars.RGClose) {
+            RG.position = TestVars.RGOpen
         }
         else {
-            robot.RG.position = TestVars.RGClose
+            RG.position = TestVars.RGClose
         }
     }
 }
