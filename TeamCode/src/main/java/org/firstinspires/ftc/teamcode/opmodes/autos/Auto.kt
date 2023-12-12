@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.opmodes.autos
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive
 import org.firstinspires.ftc.teamcode.opmodes.autos.Alliance.*
@@ -207,4 +209,42 @@ class Auto: LinearOpMode() {
             DRIVE.followTrajectorySequence(pathToFollow.poll())
         }
     }
+}
+
+
+@Autonomous(name = "Arm Test")
+class armTest: LinearOpMode() {
+    override fun runOpMode() {
+        var LIFT: DcMotorEx
+        var WRIST: Servo
+        var LG: Servo
+        var RG: Servo
+
+        LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+        LIFT.direction = DcMotorSimple.Direction.REVERSE
+
+        WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
+        LG = hardwareMap!!.get(Servo::class.java, "LG")
+        RG = hardwareMap!!.get(Servo::class.java, "RG")
+
+
+        LG.position = 0.0
+        RG.position = 0.1
+        waitForStart()
+
+        LIFT.power = 1.0
+        sleep(700)
+        LIFT.power = 0.05
+        WRIST.position = TestVars.WristTop
+        sleep(1500)
+        LG.position = 0.1
+        sleep(1000)
+        LG.position = 0.0
+        WRIST.position = TestVars.WristLevelPos
+        sleep(1000)
+        LIFT.power = -0.8
+        sleep(700)
+
+    }
+
 }
