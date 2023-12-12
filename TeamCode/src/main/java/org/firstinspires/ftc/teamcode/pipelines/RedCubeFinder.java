@@ -122,6 +122,7 @@ public class RedCubeFinder extends OpenCvPipeline {
         maskImg.release();
         hierarchy.release();
 
+
         telemetry.update();
         return input;
     }
