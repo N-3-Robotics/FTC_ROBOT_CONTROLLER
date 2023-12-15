@@ -26,7 +26,7 @@ enum class Position {
 class Auto: LinearOpMode() {
 
     override fun runOpMode() {
-        val ALLIANCE = BLUE
+        val ALLIANCE = RED
         val POSITION = FAR
 
         val CAMERA = Camera(hardwareMap, telemetry, ALLIANCE);
@@ -35,7 +35,22 @@ class Auto: LinearOpMode() {
         var StartPose: Pose2d
         var pathToFollow: Queue<TrajectorySequence> = LinkedList()
 
+        var LIFT: DcMotorEx
+        var WRIST: Servo
+        var LG: Servo
+        var RG: Servo
+
         var Mult: Int = 2
+
+        LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+        LIFT.direction = DcMotorSimple.Direction.REVERSE
+
+        WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
+        LG = hardwareMap!!.get(Servo::class.java, "LG")
+        RG = hardwareMap!!.get(Servo::class.java, "RG")
+
+        LG.position = 0.0
+        RG.position = 0.1
 
 
 
@@ -55,9 +70,10 @@ class Auto: LinearOpMode() {
         DRIVE.poseEstimate = StartPose
         /* END CONFIGURE STARTING POSE */
 
+
         /* SEQUENCES */
         val start = DRIVE.trajectorySequenceBuilder(StartPose)
-                .forward(48 - (17.0 / 2.0))
+                .forward(42 - (17.0 / 2.0))
                 .build()
 
         val left = DRIVE.trajectorySequenceBuilder(start.end())
@@ -101,8 +117,9 @@ class Auto: LinearOpMode() {
                 .waitSeconds(1.0)
                 .addDisplacementMarker{
                     DRIVE.CRANE.power = 0.2
+                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
                 }
-                .waitSeconds(1.0)
+                .waitSeconds(0.5)
                 .addDisplacementMarker{
                     DRIVE.CRANE.power = 0.0
                     hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
@@ -110,7 +127,7 @@ class Auto: LinearOpMode() {
                 .build()
 
         val returnToStartPos = DRIVE.trajectorySequenceBuilder(center.end())
-                .back(48 - (17.0 / 2.0))
+                .back(42 - (17.0 / 2.0))
                 .build()
 
 
@@ -199,7 +216,6 @@ class Auto: LinearOpMode() {
                     .forward(24.0)
                     .build()
         }
-        pathToFollow.add(park)
 
         telemetry.addData("Status", "Running");
         telemetry.update();
@@ -208,6 +224,46 @@ class Auto: LinearOpMode() {
         while (!pathToFollow.isEmpty()) {
             DRIVE.followTrajectorySequence(pathToFollow.poll())
         }
+
+        stop()
+        /* FUNCTIONS TO PLACE ON BACKDROP */
+        val forwardTen = DRIVE.trajectorySequenceBuilder(toBoard.end())
+                .forward(15.0)
+                .build()
+
+        val backTen = DRIVE.trajectorySequenceBuilder(forwardTen.end())
+                .back(3.0)
+                .build()
+        fun liftToPosition(){
+            LIFT.power = 1.0
+            sleep(700)
+            LIFT.power = 0.05
+            WRIST.position = TestVars.WristTop
+            sleep(1500)
+        }
+
+
+        fun releasePixel() {
+            LG.position = 0.1
+            sleep(1000)
+        }
+
+        fun lowerArm() {
+            LG.position = 0.0
+            WRIST.position = TestVars.WristLevelPos
+            sleep(1500)
+            LIFT.power = -0.8
+            sleep(700)
+            LIFT.power = 0.0
+
+        }
+        /* END FUNCTIONS TO PLACE ON BACKDROP */
+        liftToPosition()
+        DRIVE.followTrajectorySequence(forwardTen)
+        releasePixel()
+        DRIVE.followTrajectorySequence(backTen)
+        lowerArm()
+        //DRIVE.followTrajectorySequence(park)
     }
 }
 
@@ -247,4 +303,97 @@ class armTest: LinearOpMode() {
 
     }
 
+}
+@Autonomous(name = "RoadRunner Arm Test")
+class RoadArmTest: LinearOpMode() {
+    override fun runOpMode() {
+        var LIFT: DcMotorEx
+        var WRIST: Servo
+        var LG: Servo
+        var RG: Servo
+        var StartPose: Pose2d
+        val DRIVE = SampleMecanumDrive(hardwareMap);
+        StartPose = Pose2d(0.0,0.0,Math.toRadians(0.0))
+
+        var pathToFollow: Queue<TrajectorySequence> = LinkedList()
+
+        LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+        LIFT.direction = DcMotorSimple.Direction.REVERSE
+
+        WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
+        LG = hardwareMap!!.get(Servo::class.java, "LG")
+        RG = hardwareMap!!.get(Servo::class.java, "RG")
+
+        LG.position = 0.0
+        RG.position = 0.1
+
+        val backTen = DRIVE.trajectorySequenceBuilder(StartPose)
+                .back(10.0)
+                .build()
+        fun liftToPosition(){
+            LIFT.power = 1.0
+            sleep(700)
+            LIFT.power = 0.05
+            WRIST.position = TestVars.WristTop
+            sleep(1500)
+        }
+
+        val forwardTen = DRIVE.trajectorySequenceBuilder(StartPose)
+                .forward(10.0)
+                .build()
+
+        fun releasePixel() {
+            LG.position = 0.1
+            sleep(1000)
+        }
+
+        fun lowerArm() {
+            LG.position = 0.0
+            WRIST.position = TestVars.WristLevelPos
+            sleep(1500)
+            LIFT.power = -0.8
+            sleep(700)
+            LIFT.power = 0.0
+
+        }
+        val sequence = DRIVE.trajectorySequenceBuilder(StartPose)
+                .back(10.0)
+                .addDisplacementMarker{
+                    LIFT.power = 1.0
+                    sleep(700)
+                }
+                .addDisplacementMarker{
+                    LIFT.power = 0.05
+                    WRIST.position = TestVars.WristTop
+                    sleep(1500)
+                }
+                .forward(10.0)
+                .addDisplacementMarker{
+                    LG.position = 0.1
+                    sleep(1000)
+                }
+                .forward(-10.0)
+                .addDisplacementMarker{
+                    LG.position = 0.0
+                    WRIST.position = TestVars.WristLevelPos
+                    sleep(1000)
+                }
+                .addDisplacementMarker{
+                    LIFT.power = -0.8
+                    sleep(800)
+                }
+                .addDisplacementMarker{
+                    LIFT.power = 0.0
+                }
+                .build()
+
+        waitForStart()
+        DRIVE.followTrajectorySequence(backTen)
+        liftToPosition()
+        DRIVE.followTrajectorySequence(forwardTen)
+        releasePixel()
+        DRIVE.followTrajectorySequence(backTen)
+        lowerArm()
+
+    }
 }
