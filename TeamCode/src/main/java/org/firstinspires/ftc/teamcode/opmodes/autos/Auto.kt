@@ -386,14 +386,27 @@ class RoadArmTest: LinearOpMode() {
                     LIFT.power = 0.0
                 }
                 .build()
-
+        val liftAbovePixel = DRIVE.trajectorySequenceBuilder(StartPose)
+                .addDisplacementMarker{
+                    LIFT.power = 1.0
+                    sleep(100)
+                }
+                .waitSeconds(0.1)
+                .addDisplacementMarker{
+                    LIFT.power = 0.0
+                }
+                .build()
         waitForStart()
+        DRIVE.followTrajectorySequence(liftAbovePixel)
+        /*
         DRIVE.followTrajectorySequence(backTen)
         liftToPosition()
         DRIVE.followTrajectorySequence(forwardTen)
         releasePixel()
         DRIVE.followTrajectorySequence(backTen)
         lowerArm()
+         */
+
 
     }
 }
