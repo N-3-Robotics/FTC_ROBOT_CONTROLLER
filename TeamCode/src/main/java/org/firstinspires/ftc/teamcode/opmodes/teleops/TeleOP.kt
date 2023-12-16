@@ -34,6 +34,8 @@ class TeleOP: LinearOpMode() {
         var d1Clone: Gamepad = Gamepad()
         var d2Clone: Gamepad = Gamepad()
 
+        var wristCount = 0
+
         d1Clone.copy(gamepad1)
         d2Clone.copy(gamepad2)
 
@@ -122,9 +124,9 @@ class TeleOP: LinearOpMode() {
             if (WristState == States.UP) {
                 ROBOT.WRIST.position = TestVars.WristTop
 
-                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
-                    WristState = States.DOWN
-                }
+//                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
+//                    WristState = States.DOWN
+//                }
 
             }
             else if (WristState == States.DOWN) {
@@ -161,6 +163,7 @@ class TeleOP: LinearOpMode() {
 
             /* TOGGLE WRIST POSITION */
             if (gamepad2.triangle && !d2Clone.triangle) {
+                wristCount++
                 if (gamepad2.triangle) {
                     if (WristState == States.UP)
                         WristState = States.DOWN
@@ -270,10 +273,10 @@ class TeleOP: LinearOpMode() {
 
             ROBOT.gamepadDrive(gamepad1, m)
 
-            telemetry.addData("Elevator Position", ROBOT.ELEVATOR.currentPosition)
-            telemetry.addData("Lift Position", ROBOT.LIFT.currentPosition)
-            telemetry.addData("Global Heading", ROBOT.IMU.angularOrientation.toAxesOrder(AxesOrder.XYZ).thirdAngle)
+
             telemetry.addData("Launcher Safety", Safety)
+            telemetry.addData("Wrist State", WristState)
+            telemetry.addData("Wrist Count", wristCount)
 
             telemetry.update()
             /* END - ACTION LOOP */

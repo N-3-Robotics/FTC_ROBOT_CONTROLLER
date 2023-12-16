@@ -26,7 +26,7 @@ enum class Position {
 class Auto: LinearOpMode() {
 
     override fun runOpMode() {
-        val ALLIANCE = RED
+        val ALLIANCE = BLUE
         val POSITION = FAR
 
         val CAMERA = Camera(hardwareMap, telemetry, ALLIANCE);
@@ -51,6 +51,7 @@ class Auto: LinearOpMode() {
 
         LG.position = 0.0
         RG.position = 0.1
+        WRIST.position = TestVars.WristLevelPos
 
 
 
@@ -78,52 +79,30 @@ class Auto: LinearOpMode() {
 
         val left = DRIVE.trajectorySequenceBuilder(start.end())
                 .turn(Math.toRadians(90.0))
+                .forward(6.0)
                 .addDisplacementMarker {
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGOpen
+                    RG.position = 0.0
                 }
-                .waitSeconds(1.0)
-                .addDisplacementMarker {
-                    DRIVE.CRANE.power = 0.2
-                }
-                .waitSeconds(1.0)
-                .addDisplacementMarker {
-                    DRIVE.CRANE.power = 0.0
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
-                }
+                .back(6.0)
                 .turn(Math.toRadians(-90.0))
                 .build()
 
         val right = DRIVE.trajectorySequenceBuilder(start.end())
                 .turn(Math.toRadians(-90.0))
+                .forward(6.0)
                 .addDisplacementMarker {
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGOpen
+                    RG.position = 0.0
                 }
-                .waitSeconds(1.0)
-                .addDisplacementMarker{
-                    DRIVE.CRANE.power = 0.2
-                }
-                .waitSeconds(1.0)
-                .addDisplacementMarker{
-                    DRIVE.CRANE.power = 0.0
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
-                }
+                .back(6.0)
                 .turn(Math.toRadians(90.0))
                 .build()
 
         val center = DRIVE.trajectorySequenceBuilder(start.end())
+                .back(0.5)
                 .addDisplacementMarker{
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGOpen
+                    RG.position = 0.0
                 }
                 .waitSeconds(1.0)
-                .addDisplacementMarker{
-                    DRIVE.CRANE.power = 0.2
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
-                }
-                .waitSeconds(0.5)
-                .addDisplacementMarker{
-                    DRIVE.CRANE.power = 0.0
-                    hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
-                }
                 .build()
 
         val returnToStartPos = DRIVE.trajectorySequenceBuilder(center.end())
@@ -168,7 +147,7 @@ class Auto: LinearOpMode() {
             }
             DRIVE.trajectorySequenceBuilder(returnToStartPos.end())
                     .turn(Math.toRadians(color * 90.0))
-                    .forward(24.0)
+                    .forward(26.0)
                     .turn(Math.toRadians(color * -90.0))
                     .forward(Mult * 6.0 + 12)
                     .turn(Math.toRadians(color * 90.0))
@@ -185,7 +164,7 @@ class Auto: LinearOpMode() {
                     .forward(3*24.0)
                     .turn(Math.toRadians(color * -90.0))
                     .forward((12 - 17.0 / 2.0)/2)
-                    .forward(Mult * 6.0 + 12)
+                    .forward(Mult * 6.0 + 12 - 1)
                     .turn(color * Math.toRadians(90.0))
                     .build()
         }
@@ -221,11 +200,13 @@ class Auto: LinearOpMode() {
         telemetry.update();
 
 
+
         while (!pathToFollow.isEmpty()) {
             DRIVE.followTrajectorySequence(pathToFollow.poll())
         }
 
         stop()
+
         /* FUNCTIONS TO PLACE ON BACKDROP */
         val forwardTen = DRIVE.trajectorySequenceBuilder(toBoard.end())
                 .forward(15.0)
@@ -239,19 +220,19 @@ class Auto: LinearOpMode() {
             sleep(700)
             LIFT.power = 0.05
             WRIST.position = TestVars.WristTop
-            sleep(1500)
+            sleep(250)
         }
 
 
         fun releasePixel() {
             LG.position = 0.1
-            sleep(1000)
+            sleep(500)
         }
 
         fun lowerArm() {
             LG.position = 0.0
             WRIST.position = TestVars.WristLevelPos
-            sleep(1500)
+            sleep(500)
             LIFT.power = -0.8
             sleep(700)
             LIFT.power = 0.0
