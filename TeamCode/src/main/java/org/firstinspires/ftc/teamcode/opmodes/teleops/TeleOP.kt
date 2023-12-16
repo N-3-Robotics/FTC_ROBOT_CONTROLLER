@@ -268,6 +268,8 @@ class TeleOP: LinearOpMode() {
 
             /* ACTION LOOP */
 
+            RGSTATE = States.OPEN
+
             d1Clone.copy(gamepad1)
             d2Clone.copy(gamepad2)
 
