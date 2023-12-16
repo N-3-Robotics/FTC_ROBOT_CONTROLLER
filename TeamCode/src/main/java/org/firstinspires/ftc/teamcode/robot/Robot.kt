@@ -2,32 +2,19 @@
 package org.firstinspires.ftc.teamcode.robot
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
-import com.acmerobotics.robomatic.util.PIDController
 import com.qualcomm.hardware.bosch.BNO055IMU
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor
-import com.qualcomm.robotcore.hardware.*
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.teamcode.utilities.AutoMode.*
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.AutoDriveTolerance
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.AutoTurnTolerance
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.drive_kD
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.drive_kI
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.drive_kP
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.heading_kD
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.heading_kI
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.heading_kP
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.strafeMultiplier
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.turn_kD
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.turn_kI
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.turn_kP
-import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.radToDeg
-import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.ticksToInches
-import org.firstinspires.ftc.teamcode.utilities.RumbleStrength
-import org.firstinspires.ftc.teamcode.utilities.Side
-import kotlin.math.abs
+import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.Gamepad
+import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.teamcode.robot.AutoMode.MANUAL
+import org.firstinspires.ftc.teamcode.robot.AutoMode.TURN
+import org.firstinspires.ftc.teamcode.robot.AutoMode.UNKNOWN
+import org.firstinspires.ftc.teamcode.robot.DriveConstants.strafeMultiplier
+import org.firstinspires.ftc.teamcode.robot.QOL.Companion.ticksToInches
 
 
 class Robot(hwMap: HardwareMap?) {
@@ -43,11 +30,18 @@ class Robot(hwMap: HardwareMap?) {
 
     var ELEVATOR: DcMotorEx
 
+    var PL: DcMotorEx
+
     var WRIST: Servo
 
     var LG: Servo
     var RG: Servo
 
+    var LOCK: Servo
+    var SAFETY: Servo
+    var LAUNCHER: Servo
+
+    var RO: DcMotorEx
 
     var IMU: BNO055IMU
 
@@ -78,9 +72,6 @@ class Robot(hwMap: HardwareMap?) {
 
     private var hardwareMap: HardwareMap? = null
 
-    var headingPIDController = PIDController(heading_kP, heading_kI, heading_kD)
-    var turnPIDController = PIDController(turn_kP, turn_kI, turn_kD)
-    var drivePIDController = PIDController(drive_kP, drive_kI, drive_kD)
 
     init {
         hardwareMap = hwMap
@@ -95,20 +86,21 @@ class Robot(hwMap: HardwareMap?) {
 
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
+        LIFT.direction = DcMotorSimple.Direction.REVERSE
 
         ELEVATOR = hardwareMap!!.get(DcMotorEx::class.java, "ELEVATOR")
 
+        PL = hardwareMap!!.get(DcMotorEx::class.java, "PL")
+
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
-
         LG = hardwareMap!!.get(Servo::class.java, "LG")
-
         RG = hardwareMap!!.get(Servo::class.java, "RG")
 
+        RO = hardwareMap!!.get(DcMotorEx::class.java, "RO")
 
-        headingPIDController.setOutputBounds(-0.1, 0.1)
-        turnPIDController.setOutputBounds(-1.0, 1.0)
-        drivePIDController.setOutputBounds(-1.0, 1.0)
-
+        LOCK = hardwareMap!!.get(Servo::class.java, "LOCK")
+        SAFETY = hardwareMap!!.get(Servo::class.java, "SAFETY")
+        LAUNCHER = hardwareMap!!.get(Servo::class.java, "LAUNCHER")
 
         FL.direction = DcMotorSimple.Direction.REVERSE
         BL.direction = DcMotorSimple.Direction.REVERSE
@@ -290,7 +282,6 @@ class Robot(hwMap: HardwareMap?) {
         }
     }
     fun turnRight(angle: Int = -90){
-        turnPIDController.reset()
 
         autoMode = TURN
 
@@ -319,7 +310,6 @@ class Robot(hwMap: HardwareMap?) {
 //    }
 
     fun turnLeft(angle: Int = 90){
-        turnPIDController.reset()
 
         autoMode = TURN
 

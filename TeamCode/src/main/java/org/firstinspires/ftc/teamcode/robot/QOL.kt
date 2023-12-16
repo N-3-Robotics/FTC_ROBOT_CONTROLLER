@@ -1,9 +1,9 @@
 @file:Suppress("unused")
-package org.firstinspires.ftc.teamcode.utilities
+package org.firstinspires.ftc.teamcode.robot
 
 import com.acmerobotics.dashboard.config.Config
-import org.firstinspires.ftc.teamcode.utilities.DriveConstants.gearRatio
-import org.firstinspires.ftc.teamcode.utilities.QOL.Companion.rpmToVelocity
+import org.firstinspires.ftc.teamcode.robot.DriveConstants.gearRatio
+import org.firstinspires.ftc.teamcode.robot.QOL.Companion.rpmToVelocity
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
