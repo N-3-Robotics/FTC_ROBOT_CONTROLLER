@@ -268,7 +268,13 @@ class TeleOP: LinearOpMode() {
 
             /* ACTION LOOP */
 
-            RGSTATE = States.OPEN
+
+            if (RGSTATE == States.OPEN){
+                haptic(gamepad2, Side.RIGHT)
+            }
+            if (LGSTATE == States.OPEN){
+                haptic(gamepad2, Side.LEFT)
+            }
 
             d1Clone.copy(gamepad1)
             d2Clone.copy(gamepad2)
