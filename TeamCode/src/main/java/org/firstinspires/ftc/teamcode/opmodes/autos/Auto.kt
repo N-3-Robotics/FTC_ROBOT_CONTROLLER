@@ -98,7 +98,8 @@ class Auto: LinearOpMode() {
                 .build()
 
         val center = DRIVE.trajectorySequenceBuilder(start.end())
-                .back(0.5)
+                .back(1.0)
+                .waitSeconds(1.0)
                 .addDisplacementMarker{
                     RG.position = 0.0
                 }
