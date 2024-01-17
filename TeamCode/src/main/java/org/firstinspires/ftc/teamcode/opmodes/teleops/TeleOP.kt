@@ -277,6 +277,8 @@ class TeleOP: LinearOpMode() {
             telemetry.addData("Launcher Safety", Safety)
             telemetry.addData("Wrist State", WristState)
             telemetry.addData("Wrist Count", wristCount)
+            telemetry.addData("Left Claw", LGSTATE)
+            telemetry.addData("Right Claw", RGSTATE)
 
             telemetry.update()
             /* END - ACTION LOOP */

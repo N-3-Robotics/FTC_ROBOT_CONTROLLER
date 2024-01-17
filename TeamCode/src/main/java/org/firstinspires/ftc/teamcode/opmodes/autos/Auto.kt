@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.autos
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotorEx
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.opmodes.autos.Position.*
 import org.firstinspires.ftc.teamcode.robot.Camera
 //import org.firstinspires.ftc.teamcode.robot.Robot
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder
 import java.util.LinkedList
 import java.util.Queue
 
@@ -390,5 +392,49 @@ class RoadArmTest: LinearOpMode() {
          */
 
 
+    }
+}
+
+
+@Autonomous(name="Demo")
+class DemoAuto: LinearOpMode() {
+    override fun runOpMode() {
+
+        val DRIVE = SampleMecanumDrive(hardwareMap)
+        val StartPos = Pose2d(-35.0, 72.0-17/2, Math.toRadians(-90.0))
+        DRIVE.poseEstimate = StartPos
+        val color = 1
+
+        val path = DRIVE.trajectorySequenceBuilder(StartPos).forward(48 - (17.0 / 2.0))
+                .lineTo(Vector2d(StartPos.x, 60.0))
+                .strafeLeft(3*24.0)
+                .lineToLinearHeading(Pose2d(36.0, 60.0 - (color*6) - 12.0, Math.toRadians(0.0)))
+                .forward(6.0)
+                .addDisplacementMarker {
+                    println("whoop")
+                }
+                .back(6.0)
+
+                .lineTo(Vector2d(36.0, 60.0))
+                .forward(24.0)
+                .build()
+
+
+        waitForStart()
+
+        DRIVE.followTrajectorySequence(path)
+    }
+}
+
+@Autonomous
+class Telem: LinearOpMode() {
+    override fun runOpMode() {
+        val DRIVE = SampleMecanumDrive(hardwareMap)
+
+        waitForStart()
+        while (opModeIsActive()) {
+            telemetry.addData("POSITION", DRIVE.poseEstimate)
+            telemetry.update()
+        }
     }
 }

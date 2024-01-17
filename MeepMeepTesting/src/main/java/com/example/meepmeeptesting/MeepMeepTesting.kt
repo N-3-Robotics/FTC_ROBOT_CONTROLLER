@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
+import com.acmerobotics.roadrunner.geometry.Vector2d
 import com.noahbres.meepmeep.MeepMeep
 import com.noahbres.meepmeep.MeepMeep.Background
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark
@@ -21,7 +22,7 @@ internal enum class Position {
 object MeepMeepTesting {
     @JvmStatic
     fun main(args: Array<String>) {
-        val meepMeep = MeepMeep(400)
+        val meepMeep = MeepMeep(650)
         val ALLIANCE = Alliance.BLUE
         val POSITION = Position.FAR
 
@@ -49,33 +50,18 @@ object MeepMeepTesting {
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(StartPose)
                             .forward(48 - (17.0 / 2.0))
-//                            .addDisplacementMarker{
-//                                hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGOpen
-//                            }
-                            .waitSeconds(1.0)
-//                            .addDisplacementMarker{
-//                                DRIVE.CRANE.power = 0.2
-//                            }
-                            .waitSeconds(1.0)
-//                            .addDisplacementMarker{
-//                                DRIVE.CRANE.power = 0.0
-//                                hardwareMap.get(Servo::class.java, "RG").position = TestVars.RGClose
-//                            }
+                            .lineTo(Vector2d(StartPose.x, 60.0))
+                            .strafeLeft(3*24.0)
 
 
-                            .lineTo(StartPose.vec())
+                            .lineToLinearHeading(Pose2d(36.0, 60.0 - (color*6) - 12.0, Math.toRadians(0.0)))
+                            .forward(6.0)
+                            .addDisplacementMarker {
+                               println("whoop")
+                            }
+                            .back(6.0)
 
-                            .forward(12 - 17.0 / 2.0)
-                            .turn(Math.toRadians( color * 90.0))
-                            .forward(3*24.0)
-                            .turn(Math.toRadians(color * -90.0))
-                            .forward((12 - 17.0 / 2.0)/2)
-                            .forward(Mult * 6.0 + 12)
-                            .turn(color * Math.toRadians(90.0))
-
-                            .turn(Math.toRadians( color * -90.0))
-                            .back(Mult * 6.0 + 12)
-                            .turn(Math.toRadians(color * 90.0))
+                            .lineTo(Vector2d(36.0, 60.0))
                             .forward(24.0)
 
                             .build()
