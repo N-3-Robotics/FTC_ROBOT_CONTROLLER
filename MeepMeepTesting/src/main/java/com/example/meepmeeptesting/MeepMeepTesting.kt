@@ -28,41 +28,42 @@ object MeepMeepTesting {
 
 
         /* CONFIGURE STARTING POSE*/
-        val StartPose: Pose2d = if (ALLIANCE == Alliance.BLUE && POSITION == Position.CLOSE) {
-            Pose2d(12.0, 72.0 - 17 / 2, Math.toRadians(-90.0))
-        } else if (ALLIANCE == Alliance.BLUE && POSITION == Position.FAR) {
-            Pose2d(-35.0, 72.0 - 17 / 2, Math.toRadians(-90.0))
-        } else if (ALLIANCE == Alliance.RED && POSITION == Position.CLOSE) {
-            Pose2d(12.0, -72.0 + 17 / 2, Math.toRadians(90.0))
+//        val StartPose: Pose2d = if (ALLIANCE == Alliance.BLUE && POSITION == Position.CLOSE) {
+//            Pose2d(12.0, 72.0 - 17 / 2, Math.toRadians(-90.0))
+//        } else if (ALLIANCE == Alliance.BLUE && POSITION == Position.FAR) {
+//            Pose2d(-35.0, 72.0 - 17 / 2, Math.toRadians(-90.0))
+//        } else if (ALLIANCE == Alliance.RED && POSITION == Position.CLOSE) {
+//            Pose2d(12.0, -72.0 + 17 / 2, Math.toRadians(90.0))
+//        } else if (ALLIANCE == Alliance.RED && POSITION == Position.FAR) {
+//            Pose2d(-35.0, -72.0 + 17 / 2, Math.toRadians(90.0))
+//        } else {
+//            Pose2d(-35.0, 72.0 - 17 / 2, Math.toRadians(90.0))
+//        }
 
-        } else if (ALLIANCE == Alliance.RED && POSITION == Position.FAR) {
-            Pose2d(-35.0, -72.0 + 17 / 2, Math.toRadians(90.0))
-        } else {
-            Pose2d(-35.0, 72.0 - 17 / 2, Math.toRadians(90.0))
-        }
-
-        val color = if (ALLIANCE == Alliance.BLUE) 1 else -1
+        val StartPose = Pose2d(-35.0, -72.0 + 17 / 2, Math.toRadians(90.0))
+        val color = -1
         val Mult = 2
 
         val myBot = DefaultBotBuilder(meepMeep) // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60.0, 60.0, Math.toRadians(180.0), Math.toRadians(180.0), 15.0) // Option: Set theme. Default = ColorSchemeRedDark()
+                .setConstraints(47.97496701774052, 25.0, Math.toRadians(134.45), Math.toRadians(134.45), 15.0) // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(ColorSchemeRedDark())
                 .followTrajectorySequence { drive: DriveShim ->
                     drive.trajectorySequenceBuilder(StartPose)
-                            .forward(48 - (17.0 / 2.0))
-                            .lineTo(Vector2d(StartPose.x, 60.0))
-                            .strafeLeft(3*24.0)
+                            .forward(42 - (17.0 / 2.0))
 
-
-                            .lineToLinearHeading(Pose2d(36.0, 60.0 - (color*6) - 12.0, Math.toRadians(0.0)))
+                            .turn(Math.toRadians(90.0))
                             .forward(6.0)
-                            .addDisplacementMarker {
-                               println("whoop")
-                            }
                             .back(6.0)
+                            .lineToLinearHeading(Pose2d(StartPose.x, StartPose.y - (color*(42-(17.0/2.0))), Math.toRadians(color*-90.0)))
 
-                            .lineTo(Vector2d(36.0, 60.0))
+
+                            .lineToLinearHeading(Pose2d(StartPose.x, color*61.0, StartPose.heading))
+                            .lineTo(Vector2d(36.0, color*61.0))
+                            .lineToLinearHeading(Pose2d(36.0, color*61.0 - (color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
+                            .forward(17.0)
+                            .lineTo(Vector2d(36.0, color*61.0))
                             .forward(24.0)
+
 
                             .build()
                 }
