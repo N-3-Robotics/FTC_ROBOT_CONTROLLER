@@ -35,7 +35,7 @@ object TestVars{
     var LOCKLock: Double = 0.0
 
     @JvmField
-    var LOCKUnlock: Double = 1.0
+    var LOCKUnlock: Double = 0.2
 
     @JvmField
     var LAUNCHERStaged: Double = 1.0
