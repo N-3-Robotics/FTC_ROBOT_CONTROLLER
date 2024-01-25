@@ -34,7 +34,7 @@ class AutoBlueFar: LinearOpMode() {
 
         val LIFT_HEIGHT = 1550
 
-        val RETURN_POS = 60.0
+        val RETURN_POS = 62.0
 
         val ALLIANCE = BLUE
         val POSITION = FAR
@@ -48,6 +48,7 @@ class AutoBlueFar: LinearOpMode() {
         val CAMERA = Camera(hardwareMap, telemetry, ALLIANCE);
 
         val DRIVE = SampleMecanumDrive(hardwareMap);
+
         var StartPose: Pose2d
         var pathToFollow: Queue<TrajectorySequence> = LinkedList()
 
@@ -174,7 +175,7 @@ class AutoBlueFar: LinearOpMode() {
                         LIFT.velocity = 800.0
                         telemetry.update()
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -190,7 +191,7 @@ class AutoBlueFar: LinearOpMode() {
                         LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                         LIFT.velocity = 800.0
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -244,7 +245,7 @@ class AutoBlueClose: LinearOpMode() {
 
         val LIFT_HEIGHT = 1550
 
-        val RETURN_POS = 60.0
+        val RETURN_POS = 62.0
 
         val ALLIANCE = BLUE
         val POSITION = CLOSE
@@ -384,7 +385,7 @@ class AutoBlueClose: LinearOpMode() {
                         LIFT.velocity = 800.0
                         telemetry.update()
                     }
-                    .lineToLinearHeading(Pose2d(40.0, -RETURN_POS + (Mult * 6) + 14.0, Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -400,7 +401,7 @@ class AutoBlueClose: LinearOpMode() {
                         LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                         LIFT.velocity = 800.0
                     }
-                    .lineToLinearHeading(Pose2d(40.0, -RETURN_POS + (Mult * 6) + 14.0, Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }

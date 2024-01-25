@@ -1,7 +1,16 @@
-package org.firstinspires.ftc.teamcode.pipelines;
+package org.firstinspires.ftc.teamcode.pipelines.depricated;
 
-import static org.opencv.core.Core.*;
-import static org.opencv.imgproc.Imgproc.*;
+import static org.opencv.core.Core.bitwise_and;
+import static org.opencv.core.Core.inRange;
+import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_SIMPLE;
+import static org.opencv.imgproc.Imgproc.COLOR_RGB2HSV;
+import static org.opencv.imgproc.Imgproc.RETR_EXTERNAL;
+import static org.opencv.imgproc.Imgproc.boundingRect;
+import static org.opencv.imgproc.Imgproc.circle;
+import static org.opencv.imgproc.Imgproc.cvtColor;
+import static org.opencv.imgproc.Imgproc.findContours;
+import static org.opencv.imgproc.Imgproc.moments;
+import static org.opencv.imgproc.Imgproc.rectangle;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Mat;
@@ -14,16 +23,16 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlueCubeFinder extends OpenCvPipeline {
+public class RedCubeFinder extends OpenCvPipeline {
 
-    public Scalar LOWER_BOUND_COLOR = new Scalar(100, 119, 97.8);
-    public Scalar HIGHER_BOUND_COLOR = new Scalar(140, 255, 255);
+    public Scalar LOWER_BOUND_COLOR = new Scalar(0, 113.3, 124.5);
+    public Scalar HIGHER_BOUND_COLOR = new Scalar(187, 255, 255);
 
     Telemetry telemetry;
 
     private String pos = "UNKNOWN";
 
-    public BlueCubeFinder(Telemetry telemetry) {
+    public RedCubeFinder(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
 
@@ -112,6 +121,7 @@ public class BlueCubeFinder extends OpenCvPipeline {
         mask.release();
         maskImg.release();
         hierarchy.release();
+
 
         telemetry.update();
         return input;

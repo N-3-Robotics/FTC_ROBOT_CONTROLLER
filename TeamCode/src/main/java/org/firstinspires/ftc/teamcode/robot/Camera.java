@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.opmodes.autos.Alliance;
-import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
-import org.firstinspires.ftc.teamcode.pipelines.BlueCubeFinder;
-import org.firstinspires.ftc.teamcode.pipelines.RedCubeFinder;
+import org.firstinspires.ftc.teamcode.pipelines.BluePipeline;
+import org.firstinspires.ftc.teamcode.pipelines.RedPipeline;
+import org.firstinspires.ftc.teamcode.pipelines.depricated.AprilTagPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -17,9 +17,9 @@ public class Camera {
     private OpenCvWebcam webcam;
     private HardwareMap hardwareMap;
 
-    private BlueCubeFinder blue;
+    private BluePipeline blue;
 
-    private RedCubeFinder red;
+    private RedPipeline red;
 
     private AprilTagPipeline aTag;
 
@@ -29,8 +29,8 @@ public class Camera {
     public Camera(HardwareMap hw, Telemetry telemetry, Alliance color) { // hardware map from the base class is a parameter
         this.COLOR = color;
 
-        blue = new BlueCubeFinder(telemetry); // initialize your pipeline classes
-        red = new RedCubeFinder(telemetry);
+        blue = new BluePipeline(telemetry); // initialize your pipeline classes
+        red = new RedPipeline(telemetry);
         aTag = new AprilTagPipeline(0.032, 699.491728169, 699.491728169, 327.417804563, 264.843155529);
 
         this.hardwareMap = hw;    //Configure the Camera in hardwaremap
@@ -94,7 +94,7 @@ public class Camera {
             case BLUE:
                 return blue.getOutput();
         }
-        return "CENTER";
+        return "UNKNOWN";
     }
 
 //    public String getPipeline2Output(){

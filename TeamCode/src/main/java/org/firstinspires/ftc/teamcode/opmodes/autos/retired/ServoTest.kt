@@ -17,16 +17,16 @@ object TestVars{
     var WristTop: Double = 0.0
 
     @JvmField
-    var LGOpen: Double = 0.0
+    var LGOpen: Double = 0.1
 
     @JvmField
-    var LGClose: Double = 0.1
+    var LGClose: Double = 0.0
 
     @JvmField
-    var RGOpen: Double = 0.1
+    var RGOpen: Double = 0.0
 
     @JvmField
-    var RGClose: Double = 0.0
+    var RGClose: Double = 0.1
 
     @JvmField
     var AUTODOWN: Int = 999

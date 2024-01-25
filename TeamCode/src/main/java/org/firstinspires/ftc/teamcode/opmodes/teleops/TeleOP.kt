@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.Gamepad.LedEffect
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -12,10 +13,14 @@ import org.firstinspires.ftc.teamcode.opmodes.autos.TestVars
 import org.firstinspires.ftc.teamcode.robot.Robot
 import org.firstinspires.ftc.teamcode.robot.RumbleStrength
 import org.firstinspires.ftc.teamcode.robot.Side
+import org.firstinspires.ftc.teamcode.opmodes.teleops.Lift.*
 
 
 private enum class States {
     OPEN, CLOSE, UP, DOWN, LOCKED, UNLOCKED, LAUNCHED, STAGED
+}
+private enum class Lift {
+    LOWER, READY, CLOSE, DUMP
 }
 
 @TeleOp(name = "TeleOp")
@@ -47,6 +52,8 @@ class TeleOP: LinearOpMode() {
         var LaunchState = States.STAGED
         var Locker = States.UNLOCKED
         var Safety = true
+
+        var LiftState = READY
 
 
         /* END - INITIALIZATION */
@@ -97,43 +104,6 @@ class TeleOP: LinearOpMode() {
             /* DRIVER 2 */
 
 
-            /* LG STATE MACHINE */
-            if (LGSTATE == States.CLOSE) {
-                ROBOT.LG.position = TestVars.LGClose
-            }
-
-            else if (LGSTATE == States.OPEN){
-                ROBOT.LG.position = TestVars.LGOpen
-
-            }
-            /* END LG STATE MACHINE */
-
-            /* RG STATE MACHINE */
-            if (RGSTATE == States.CLOSE) {
-                ROBOT.RG.position = TestVars.RGClose
-            }
-
-            else if (RGSTATE == States.OPEN) {
-                ROBOT.RG.position = TestVars.RGOpen
-            }
-            /* END RG STATE MACHINE */
-
-            /* END GRIPPER INDICATORS */
-
-            /* WRIST STATE MACHINE */
-            if (WristState == States.UP) {
-                ROBOT.WRIST.position = TestVars.WristTop
-
-//                if (ROBOT.LIFT.currentPosition < TestVars.AUTODOWN) {
-//                    WristState = States.DOWN
-//                }
-
-            }
-            else if (WristState == States.DOWN) {
-                ROBOT.WRIST.position = TestVars.WristLevelPos
-            }
-            /* WRIST STATE MACHINE */
-
             /* LOCK STATE MACHINE */
             if(Locker == States.LOCKED){
                 ROBOT.LOCK.position = TestVars.LOCKLock
@@ -142,6 +112,8 @@ class TeleOP: LinearOpMode() {
                 ROBOT.LOCK.position = TestVars.LOCKUnlock
             }
             /* END LOCK STATE MACHINE */
+
+
 
             /* LAUNCHER STATE MACHINE */
             if(LaunchState == States.STAGED){
@@ -152,25 +124,111 @@ class TeleOP: LinearOpMode() {
             }
             /* END LAUNCHER STATE MACHINE */
 
-            /* SAFETY STATE MACHINE */
-            if (Safety) {
-                ROBOT.SAFETY.position = TestVars.SAFETYLocked
-            }
-            else {
-                ROBOT.SAFETY.position = TestVars.SAFETYUnlocked
-            }
-            /* END SAFETY STATE MACHINE */
 
-            /* TOGGLE WRIST POSITION */
-            if (gamepad2.triangle && !d2Clone.triangle) {
-                wristCount++
-                if (gamepad2.triangle) {
-                    if (WristState == States.UP)
-                        WristState = States.DOWN
-                    else
-                        WristState = States.UP
+            /////////////////////////////////////
+
+
+
+            when (LiftState) {
+                LOWER -> {
+                    ROBOT.LIFT.mode = DcMotor.RunMode.RUN_USING_ENCODER
+                    ROBOT.LG.position = TestVars.LGClose
+                    ROBOT.RG.position = TestVars.RGClose
+                    ROBOT.WRIST.position = TestVars.WristLevelPos
+                    WristState = States.DOWN
+                    ROBOT.LIFT.targetPosition = 0
+                    ROBOT.LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
+                    ROBOT.LIFT.velocity = 1200.0
+                    ROBOT.LIFT.power = 1.0
+
+                    if (ROBOT.LIFT.currentPosition <= 100) {
+                        ROBOT.LIFT.power = 0.0
+                        if (ROBOT.LIFT.currentPosition < 0) {
+                            ROBOT.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+                        }
+                        ROBOT.LG.position = TestVars.LGOpen
+                        ROBOT.RG.position = TestVars.RGOpen
+                        RGSTATE = States.OPEN
+                        LGSTATE = States.OPEN
+                        LiftState = READY
+                        ROBOT.LIFT.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+                    }
+                }
+                CLOSE -> {
+                    RGSTATE = States.CLOSE
+                    LGSTATE = States.CLOSE
+                    ROBOT.LG.position = TestVars.LGClose
+                    ROBOT.RG.position = TestVars.RGClose
+                    LiftState = READY
+                }
+                READY -> {
+                    if (gamepad2.dpad_down && !d2Clone.dpad_down){
+                        if(gamepad2.dpad_down) {
+                            LiftState = LOWER
+                        }
+                    }
+
+                    if (gamepad2.dpad_up && !d2Clone.dpad_up){
+                        if(gamepad2.dpad_up) {
+                            LiftState = CLOSE
+                        }
+                    }
+
+                    ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
+
+                    /* LEFT GRIPPER TOGGLE */
+                    if (gamepad2.left_bumper && !d2Clone.left_bumper) {
+                        if (gamepad2.left_bumper) {
+                            if (LGSTATE == States.OPEN) {
+                                ROBOT.LG.position = TestVars.LGClose
+                                LGSTATE = States.CLOSE
+                            }
+                            else {
+                                ROBOT.LG.position = TestVars.LGOpen
+                                LGSTATE = States.OPEN
+                            }
+                        }
+                    }
+                    /* END LEFT GRIPPER TOGGLE */
+
+                    /* RIGHT GRIPPER TOGGLE */
+                    if (gamepad2.right_bumper && !d2Clone.right_bumper) {
+                        if (gamepad2.right_bumper) {
+                            if (RGSTATE == States.OPEN) {
+                                ROBOT.RG.position = TestVars.RGClose
+                                RGSTATE = States.CLOSE
+                            }
+                            else {
+                                ROBOT.RG.position = TestVars.RGOpen
+                                RGSTATE = States.OPEN
+                            }
+                        }
+                    }
+                    /* END RIGHT GRIPPER TOGGLE */
+
+                    if (gamepad2.triangle && !d2Clone.triangle) {
+                        if (gamepad2.triangle) {
+                            if (WristState == States.UP) {
+                                ROBOT.WRIST.position = TestVars.WristLevelPos
+                                WristState = States.DOWN
+                            }
+                            else if (WristState == States.DOWN) {
+                                ROBOT.WRIST.position = TestVars.WristTop
+                                WristState = States.UP
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    LiftState = READY
                 }
             }
+
+            /////////////////////////////////////
+
+
+            /* TOGGLE WRIST POSITION */
+
            /* END TOGGLE WRIST POSITION*/
 
             /* TOGGLE LOCK */
@@ -184,48 +242,6 @@ class TeleOP: LinearOpMode() {
             }
             /* END TOGGLE LOCK */
 
-            /* LEFT GRIPPER TOGGLE */
-            if (gamepad2.left_bumper && !d2Clone.left_bumper) {
-                if (gamepad2.left_bumper) {
-                   if (LGSTATE == States.OPEN)
-                       LGSTATE = States.CLOSE
-                    else
-                        LGSTATE = States.OPEN
-                }
-            }
-
-            /* END LEFT GRIPPER TOGGLE */
-
-            /* RIGHT GRIPPER TOGGLE */
-            if (gamepad2.right_bumper && !d2Clone.right_bumper) {
-                if (gamepad2.right_bumper) {
-                    if (RGSTATE == States.OPEN)
-                        RGSTATE = States.CLOSE
-                    else
-                        RGSTATE = States.OPEN
-                }
-            }
-            /* END RIGHT GRIPPER TOGGLE */
-
-            /* Launcher Toggle */
-            if(gamepad2.circle && !d2Clone.circle){
-                if(gamepad2.circle && !Safety){
-                    if(LaunchState == States.STAGED)
-                        LaunchState = States.LAUNCHED
-                    else
-                        LaunchState = States.STAGED
-                }
-            }
-            /* End Launcher Toggle */
-
-            /* Safety Toggle */
-            if(gamepad2.dpad_up && !d2Clone.dpad_up){
-                if(gamepad2.dpad_up){
-                    Safety = Safety != true // Safety = the opposite of what it is.
-                    haptic(gamepad2, Side.RIGHT)
-                }
-            }
-            /* End Safety Toggle */
 
             /* NEW LAUNCHER */
             ROBOT.PL.power = if (gamepad2.touchpad) {0.8} else {0.0}
@@ -239,7 +255,6 @@ class TeleOP: LinearOpMode() {
             else {
                 ROBOT.ELEVATOR.power = 0.0
             }
-            ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
             /* END ELEVATOR CONTROLS */
 
             /* DRIVETRAIN SPEED CONTROL */
@@ -249,19 +264,15 @@ class TeleOP: LinearOpMode() {
             when {
                 gamepad1.cross -> {
                     m = 0.25
-                    haptic(gamepad1, Side.RIGHT)
                 }
                 gamepad1.circle -> {
                     m = 0.5
-                    haptic(gamepad1, Side.RIGHT)
                 }
                 gamepad1.square -> {
                     m = 0.75
-                    haptic(gamepad1, Side.RIGHT)
                 }
                 gamepad1.triangle -> {
                     m = 1.0
-                    haptic(gamepad1, Side.RIGHT)
                 }
             }
             /* END - DRIVETRAIN SPEED CONTROL */
@@ -274,6 +285,7 @@ class TeleOP: LinearOpMode() {
             ROBOT.gamepadDrive(gamepad1, m)
 
 
+            telemetry.addData("LIFT STATE", LiftState)
             telemetry.addData("Launcher Safety", Safety)
             telemetry.addData("Wrist State", WristState)
             telemetry.addData("Wrist Count", wristCount)
@@ -286,10 +298,7 @@ class TeleOP: LinearOpMode() {
 
         
     }
-    /* FUNCTIONS */
-    fun haptic(controller: Gamepad, side: Side) {
-        Robot(hardwareMap).rumble(controller, side, RumbleStrength.LOW, 300)
-    }
+
     fun closeClaws() {
         Robot(hardwareMap).LG.position = TestVars.LGClose
         Robot(hardwareMap).RG.position = TestVars.RGClose
