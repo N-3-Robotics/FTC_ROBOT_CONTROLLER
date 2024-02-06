@@ -42,7 +42,7 @@ public class BluePipeline extends OpenCvPipeline {
 
         // Define the coordinates of three rectangles
         // You need to adjust these coordinates based on your screen resolution
-        Rect rect1 = new Rect(1, 150, 110, 250);
+        Rect rect1 = new Rect(1, 150, 110, 220);
         Rect rect2 = new Rect(250, 175, 180, 215);
 
         // Draw rectangles on the output frame

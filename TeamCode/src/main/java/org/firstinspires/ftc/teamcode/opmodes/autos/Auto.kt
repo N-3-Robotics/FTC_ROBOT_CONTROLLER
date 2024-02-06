@@ -32,7 +32,7 @@ class AutoBlueFar: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1600
+        val LIFT_HEIGHT = 1700
 
         val RETURN_POS = 62.0
 
@@ -57,7 +57,7 @@ class AutoBlueFar: LinearOpMode() {
         var LG: Servo
         var RG: Servo
 
-        var Mult: Int = 2
+        var Mult: Double = 2.0
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
         LIFT.direction = DcMotorSimple.Direction.REVERSE
@@ -146,17 +146,17 @@ class AutoBlueFar: LinearOpMode() {
             "CENTER" -> {
                 after = center
                 pathToFollow.add(center)
-                Mult = 2
+                Mult = 2.0
             }
             "LEFT" -> {
                 after = left
                 pathToFollow.add(left)
-                Mult = 1
+                Mult = 1.0
             }
             "RIGHT" -> {
                 after = right
                 pathToFollow.add(right)
-                Mult = 3
+                Mult = 3.0
             }
         }
 
@@ -243,7 +243,7 @@ class AutoBlueClose: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1600
+        val LIFT_HEIGHT = 1700
 
         val RETURN_POS = 62.0
 
@@ -267,7 +267,7 @@ class AutoBlueClose: LinearOpMode() {
         var LG: Servo
         var RG: Servo
 
-        var Mult: Int = 2
+        var Mult: Double = 2.0
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
         LIFT.direction = DcMotorSimple.Direction.REVERSE
@@ -356,17 +356,17 @@ class AutoBlueClose: LinearOpMode() {
             "CENTER" -> {
                 after = center
                 pathToFollow.add(center)
-                Mult = 2
+                Mult = 1.9
             }
             "LEFT" -> {
                 after = left
                 pathToFollow.add(left)
-                Mult = 1
+                Mult = 0.9
             }
             "RIGHT" -> {
                 after = right
                 pathToFollow.add(right)
-                Mult = 3
+                Mult = 2.9
             }
         }
 
