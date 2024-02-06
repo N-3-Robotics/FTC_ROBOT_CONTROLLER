@@ -20,7 +20,7 @@ private enum class States {
     OPEN, CLOSE, UP, DOWN, LOCKED, UNLOCKED, LAUNCHED, STAGED
 }
 private enum class Lift {
-    LOWER, READY, CLOSE, DUMP
+    LOWER, READY, CLOSE, GUARANOP
 }
 
 @TeleOp(name = "TeleOp")
@@ -55,44 +55,6 @@ class TeleOP: LinearOpMode() {
 
         var LiftState = READY
 
-
-        /* END - INITIALIZATION */
-
-
-        /* STARTING ROBOT */
-
-        // create an LED effect for player one, where the controller blinks blue once, then stays green
-        val p1effect: LedEffect = LedEffect.Builder()
-                .addStep(0.0, 0.0, 1.0, 250)
-                .addStep(0.0, 0.0, 0.0, 125)
-                .addStep(1.0, 1.0, 1.0, Gamepad.LED_DURATION_CONTINUOUS)
-                .build()
-
-        // create an LED effect for player two, where the controller blinks red twice, then stays green
-        val p2effect: LedEffect = LedEffect.Builder()
-                .addStep(1.0, 0.0, 0.0, 250)
-                .addStep(0.0, 0.0, 0.0, 125)
-                .addStep(1.0, 0.0, 0.0, 250)
-                .addStep(0.0, 0.0, 0.0, 125)
-                .addStep(1.0, 1.0, 1.0, Gamepad.LED_DURATION_CONTINUOUS)
-                .build()
-        gamepad1.runLedEffect(p1effect)
-        gamepad2.runLedEffect(p2effect)
-        ROBOT.rumble(gamepad1, Side.BOTH, RumbleStrength.HIGH, 5000)
-        ROBOT.rumble(gamepad2, Side.BOTH, RumbleStrength.HIGH, 5000)
-        // Create effects to indicate to drivers if the claws are open
-        val openEffectLeft: LedEffect = LedEffect.Builder()
-                .addStep(0.0,1.0,0.0,250)
-                .addStep(0.0,0.0,1.0,250)
-                .build()
-        val openEffectRight: LedEffect = LedEffect.Builder()
-                .addStep(1.0,0.0,0.0,250)
-                .addStep(0.0,1.0,0.0,250)
-                .build()
-        val openEffectBoth:LedEffect = LedEffect.Builder()
-                .addStep(1.0,0.0,0.0,250)
-                .addStep(0.0,0.0,1.0,250)
-                .build()
 
         waitForStart()
         /* END - STARTING ROBOT */
@@ -131,6 +93,7 @@ class TeleOP: LinearOpMode() {
 
             when (LiftState) {
                 LOWER -> {
+
                     ROBOT.LIFT.mode = DcMotor.RunMode.RUN_USING_ENCODER
                     ROBOT.LG.position = TestVars.LGClose
                     ROBOT.RG.position = TestVars.RGClose
@@ -139,10 +102,8 @@ class TeleOP: LinearOpMode() {
                     ROBOT.LIFT.targetPosition = 0
                     ROBOT.LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                     ROBOT.LIFT.velocity = 1200.0
-                    ROBOT.LIFT.power = 1.0
 
                     if (ROBOT.LIFT.currentPosition <= 100) {
-                        ROBOT.LIFT.power = 0.0
                         if (ROBOT.LIFT.currentPosition < 0) {
                             ROBOT.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
                         }
@@ -161,12 +122,19 @@ class TeleOP: LinearOpMode() {
                     ROBOT.RG.position = TestVars.RGClose
                     LiftState = READY
                 }
+                GUARANOP -> {
+                    RGSTATE = States.OPEN
+                    LGSTATE = States.OPEN
+                    ROBOT.LG.position = TestVars.LGOpen
+                    ROBOT.RG.position = TestVars.RGOpen
+                    LiftState = READY
+                }
                 READY -> {
-                    if (gamepad2.dpad_down && !d2Clone.dpad_down){
-                        if(gamepad2.dpad_down) {
-                            LiftState = LOWER
-                        }
-                    }
+//                    if (gamepad2.dpad_down && !d2Clone.dpad_down){
+//                        if(gamepad2.dpad_down) {
+//                            LiftState = LOWER
+//                        }
+//                    }
 
                     if (gamepad2.dpad_up && !d2Clone.dpad_up){
                         if(gamepad2.dpad_up) {
@@ -175,6 +143,10 @@ class TeleOP: LinearOpMode() {
                     }
 
                     ROBOT.LIFT.power = -gamepad2.left_stick_y.toDouble()
+
+                    if (gamepad2.dpad_down && !d2Clone.dpad_down) {
+                        LiftState = GUARANOP
+                    }
 
                     /* LEFT GRIPPER TOGGLE */
                     if (gamepad2.left_bumper && !d2Clone.left_bumper) {

@@ -47,8 +47,8 @@ public class RedPipeline extends OpenCvPipeline {
 
         // Define the coordinates of three rectangles
         // You need to adjust these coordinates based on your screen resolution
-        Rect rect1 = new Rect(10, 250, 100, 100);
-        Rect rect2 = new Rect(300, 268, 100, 100);
+        Rect rect1 = new Rect(1, 150, 110, 250);
+        Rect rect2 = new Rect(250, 175, 180, 215);
         Rect rect3 = new Rect(500, 230, 100, 100);
 
         // Draw rectangles on the output

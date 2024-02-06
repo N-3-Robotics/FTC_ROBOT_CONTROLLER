@@ -32,7 +32,7 @@ class AutoBlueFar: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1550
+        val LIFT_HEIGHT = 1600
 
         val RETURN_POS = 62.0
 
@@ -160,14 +160,14 @@ class AutoBlueFar: LinearOpMode() {
             }
         }
 
-        val returnToStartPos = DRIVE.trajectorySequenceBuilder(center.end())
+        val returnToStartPos = DRIVE.trajectorySequenceBuilder(after.end())
                 .lineToLinearHeading(Pose2d(StartPose.x, color*RETURN_POS, StartPose.heading))
                 .build()
 
         pathToFollow.add(returnToStartPos)
         val toBoard = if (POSITION == CLOSE) {
             DRIVE.trajectorySequenceBuilder(returnToStartPos.end())
-                    .lineTo(Vector2d(40.0, color*RETURN_POS))
+                    .lineTo(Vector2d(38.0, color*RETURN_POS))
                     .addDisplacementMarker {
                         RG.position = 0.1
                         LIFT.targetPosition = LIFT_HEIGHT
@@ -175,7 +175,7 @@ class AutoBlueFar: LinearOpMode() {
                         LIFT.velocity = 800.0
                         telemetry.update()
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(38.0, color * RETURN_POS - (color * Mult * 6) - (color * 12.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -184,14 +184,14 @@ class AutoBlueFar: LinearOpMode() {
         } else {
 
             DRIVE.trajectorySequenceBuilder(returnToStartPos.end())
-                    .lineTo(Vector2d(40.0, color*RETURN_POS))
+                    .lineTo(Vector2d(38.0, color*RETURN_POS))
                     .addDisplacementMarker {
                         RG.position = 0.1
                         LIFT.targetPosition = LIFT_HEIGHT
                         LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                         LIFT.velocity = 800.0
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(38.0, color * RETURN_POS -(color * Mult * 6) - (color * 12.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -243,7 +243,7 @@ class AutoBlueClose: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1550
+        val LIFT_HEIGHT = 1600
 
         val RETURN_POS = 62.0
 
@@ -377,7 +377,7 @@ class AutoBlueClose: LinearOpMode() {
         pathToFollow.add(returnToStartPos)
         val toBoard = if (POSITION == CLOSE) {
             DRIVE.trajectorySequenceBuilder(returnToStartPos.end())
-                    .lineTo(Vector2d(40.0, color*RETURN_POS))
+                    .lineTo(Vector2d(38.0, color*RETURN_POS))
                     .addDisplacementMarker {
                         RG.position = 0.1
                         LIFT.targetPosition = LIFT_HEIGHT
@@ -385,7 +385,7 @@ class AutoBlueClose: LinearOpMode() {
                         LIFT.velocity = 800.0
                         telemetry.update()
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(38.0, color * RETURN_POS - (color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -394,14 +394,14 @@ class AutoBlueClose: LinearOpMode() {
         } else {
 
             DRIVE.trajectorySequenceBuilder(returnToStartPos.end())
-                    .lineTo(Vector2d(40.0, color*RETURN_POS))
+                    .lineTo(Vector2d(38.0, color*RETURN_POS))
                     .addDisplacementMarker {
                         RG.position = 0.1
                         LIFT.targetPosition = LIFT_HEIGHT
                         LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                         LIFT.velocity = 800.0
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(38.0, color * RETURN_POS -(color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -453,7 +453,7 @@ class AutoRedFar: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1550
+        val LIFT_HEIGHT = 1600
 
         val RETURN_POS = 60.0
 
@@ -595,7 +595,7 @@ class AutoRedFar: LinearOpMode() {
                         LIFT.velocity = 800.0
                         telemetry.update()
                     }
-                    .lineToLinearHeading(Pose2d(36.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(36.0, color * RETURN_POS - (color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -611,7 +611,7 @@ class AutoRedFar: LinearOpMode() {
                         LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                         LIFT.velocity = 800.0
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS -(color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -663,7 +663,7 @@ class AutoRedClose: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1550
+        val LIFT_HEIGHT = 1600
 
         val RETURN_POS = 62.0
 
@@ -805,7 +805,7 @@ class AutoRedClose: LinearOpMode() {
                         LIFT.velocity = 800.0
                         telemetry.update()
                     }
-                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(40.0, color * RETURN_POS - (color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }
@@ -821,7 +821,7 @@ class AutoRedClose: LinearOpMode() {
                         LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
                         LIFT.velocity = 800.0
                     }
-                    .lineToLinearHeading(Pose2d(36.0, color * RETURN_POS - (color * Mult * 6) - (color * 16.0), Math.toRadians(0.0)))
+                    .lineToLinearHeading(Pose2d(36.0, color * RETURN_POS - (color * Mult * 6) - (color * 14.0), Math.toRadians(0.0)))
                     .addDisplacementMarker{
                         WRIST.position = TestVars.WristTop
                     }

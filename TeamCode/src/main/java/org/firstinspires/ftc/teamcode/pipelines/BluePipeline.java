@@ -27,7 +27,7 @@ public class BluePipeline extends OpenCvPipeline {
 
     double redAmount1 = 0;
     double redAmount2 = 0;
-    private final double redThreshold = 2500;
+    private final double redThreshold = 4000;
     private String pos = "UNKNOWN";
 
     @Override
@@ -42,8 +42,8 @@ public class BluePipeline extends OpenCvPipeline {
 
         // Define the coordinates of three rectangles
         // You need to adjust these coordinates based on your screen resolution
-        Rect rect1 = new Rect(10, 250, 100, 100);
-        Rect rect2 = new Rect(300, 268, 100, 100);
+        Rect rect1 = new Rect(1, 150, 110, 250);
+        Rect rect2 = new Rect(250, 175, 180, 215);
 
         // Draw rectangles on the output frame
         drawRectangle(maskedInputMat, rect1, new Scalar(255, 0, 0)); // Blue
@@ -70,8 +70,8 @@ public class BluePipeline extends OpenCvPipeline {
             telemetry.addData("Position", "RIGHT");
         }
 
-//        telemetry.addData("Blue Amount 1", redAmount1);
-//        telemetry.addData("Blue Amount 2", redAmount2);
+        telemetry.addData("Blue Amount L", redAmount1);
+        telemetry.addData("Blue Amount C", redAmount2);
 
         // Output the red amounts to the console (you can modify this part)
         telemetry.update();
