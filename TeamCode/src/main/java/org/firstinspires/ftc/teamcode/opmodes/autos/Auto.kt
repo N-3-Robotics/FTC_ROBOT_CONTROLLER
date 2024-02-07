@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode.opmodes.autos
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.geometry.Vector2d
+import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.commands.ImuCommands
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive
 import org.firstinspires.ftc.teamcode.opmodes.autos.Alliance.*
 import org.firstinspires.ftc.teamcode.opmodes.autos.Position.*
@@ -64,6 +67,13 @@ class AutoBlueFar: LinearOpMode() {
         LIFT.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         LIFT.mode = DcMotor.RunMode.RUN_USING_ENCODER
         LIFT.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        var IMU: BNO055IMU
+
+        IMU = hardwareMap!!.get(BNO055IMU::class.java, "imu")
+        val parameters = BNO055IMU.Parameters()
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
+        IMU.initialize(parameters)
 
         WRIST = hardwareMap!!.get(Servo::class.java, "WRIST")
         LG = hardwareMap!!.get(Servo::class.java, "LG")
@@ -268,6 +278,16 @@ class AutoBlueClose: LinearOpMode() {
         var RG: Servo
 
         var Mult: Double = 2.0
+
+
+        var IMU: BNO055IMU
+
+        IMU = hardwareMap!!.get(BNO055IMU::class.java, "imu")
+        val parameters = BNO055IMU.Parameters()
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
+        IMU.initialize(parameters)
+
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
         LIFT.direction = DcMotorSimple.Direction.REVERSE
@@ -479,6 +499,16 @@ class AutoRedFar: LinearOpMode() {
 
         var Mult: Int = 2
 
+
+        var IMU: BNO055IMU
+
+        IMU = hardwareMap!!.get(BNO055IMU::class.java, "imu")
+        val parameters = BNO055IMU.Parameters()
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
+        IMU.initialize(parameters)
+
+
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
         LIFT.direction = DcMotorSimple.Direction.REVERSE
         LIFT.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
@@ -688,6 +718,16 @@ class AutoRedClose: LinearOpMode() {
         var RG: Servo
 
         var Mult: Int = 2
+
+
+        var IMU: BNO055IMU
+
+        IMU = hardwareMap!!.get(BNO055IMU::class.java, "imu")
+        val parameters = BNO055IMU.Parameters()
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
+        IMU.initialize(parameters)
+
 
         LIFT = hardwareMap!!.get(DcMotorEx::class.java, "LIFT")
         LIFT.direction = DcMotorSimple.Direction.REVERSE
