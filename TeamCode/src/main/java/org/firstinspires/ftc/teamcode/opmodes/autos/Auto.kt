@@ -32,7 +32,7 @@ class AutoBlueFar: LinearOpMode() {
 
     override fun runOpMode() {
 
-        val LIFT_HEIGHT = 1700
+        val LIFT_HEIGHT = 1800
 
         val RETURN_POS = 62.0
 
@@ -100,7 +100,7 @@ class AutoBlueFar: LinearOpMode() {
 
         val left = DRIVE.trajectorySequenceBuilder(start.end())
                 .turn(Math.toRadians(90.0))
-                .forward(6.0)
+                .forward(5.6)
                 .addDisplacementMarker {
                     RG.position = 0.0
                 }
@@ -146,17 +146,17 @@ class AutoBlueFar: LinearOpMode() {
             "CENTER" -> {
                 after = center
                 pathToFollow.add(center)
-                Mult = 2.0
+                Mult = 1.80
             }
             "LEFT" -> {
                 after = left
                 pathToFollow.add(left)
-                Mult = 1.0
+                Mult = 0.77
             }
             "RIGHT" -> {
                 after = right
                 pathToFollow.add(right)
-                Mult = 3.0
+                Mult = 3.1
             }
         }
 
@@ -222,14 +222,14 @@ class AutoBlueFar: LinearOpMode() {
                     WRIST.position = TestVars.WristLevelPos
                     LIFT.targetPosition = 0
                     LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
-                    LIFT.velocity = 800.0
+                    LIFT.velocity = 1000.0
                 }
-                .lineTo(Vector2d(42.0, color*RETURN_POS))
+                .lineTo(Vector2d(42.0, color*RETURN_POS + 1))
                 .UNSTABLE_addTemporalMarkerOffset(1.0){
                     LIFT.velocity = 0.0
                     LIFT.mode = DcMotor.RunMode.RUN_USING_ENCODER
                 }
-                .forward(24.0)
+                .forward(20.0)
                 .build()
 
         DRIVE.followTrajectorySequence(park)
@@ -310,7 +310,7 @@ class AutoBlueClose: LinearOpMode() {
 
         val left = DRIVE.trajectorySequenceBuilder(start.end())
                 .turn(Math.toRadians(90.0))
-                .forward(6.0)
+                .forward(5.5)
                 .addDisplacementMarker {
                     RG.position = 0.0
                 }
@@ -341,7 +341,7 @@ class AutoBlueClose: LinearOpMode() {
 
 
         /* END SEQUENCES */
-
+        /* FINISH TUNING NEXT TIME */
         while (!isStarted) {
             telemetry.addData("Cube Location", CAMERA.cubeLocation)
             telemetry.update()
@@ -356,17 +356,17 @@ class AutoBlueClose: LinearOpMode() {
             "CENTER" -> {
                 after = center
                 pathToFollow.add(center)
-                Mult = 1.9
+                Mult = 1.80
             }
             "LEFT" -> {
                 after = left
                 pathToFollow.add(left)
-                Mult = 0.9
+                Mult = 0.70 // NEEDS FURTHER TUNING
             }
             "RIGHT" -> {
                 after = right
                 pathToFollow.add(right)
-                Mult = 2.9
+                Mult = 3.1
             }
         }
 
@@ -432,9 +432,9 @@ class AutoBlueClose: LinearOpMode() {
                     WRIST.position = TestVars.WristLevelPos
                     LIFT.targetPosition = 0
                     LIFT.mode = DcMotor.RunMode.RUN_TO_POSITION
-                    LIFT.velocity = 800.0
+                    LIFT.velocity = 1000.0
                 }
-                .lineTo(Vector2d(42.0, color*RETURN_POS))
+                .lineTo(Vector2d(42.0, color*RETURN_POS + 1))
                 .UNSTABLE_addTemporalMarkerOffset(1.0){
                     LIFT.velocity = 0.0
                     LIFT.mode = DcMotor.RunMode.RUN_USING_ENCODER

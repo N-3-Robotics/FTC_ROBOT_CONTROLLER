@@ -16,8 +16,8 @@ public class BluePipeline extends OpenCvPipeline {
     }
 
     public Scalar lower = new Scalar(0, 0, 0);
-    public Scalar upper = new Scalar(255, 117.6, 255);
-
+    public Scalar upper = new Scalar(255, 117.3, 255);
+// 125.7
     private Telemetry telemetry;
 
 
