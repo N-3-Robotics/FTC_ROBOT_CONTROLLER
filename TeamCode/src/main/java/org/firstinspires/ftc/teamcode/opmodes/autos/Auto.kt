@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive
 import org.firstinspires.ftc.teamcode.robot.Camera
 
 @Autonomous(name = "AUTO")
-class AutoBlueFar: LinearOpMode() {
+class AutoOpMode: LinearOpMode() {
 
 
     override fun runOpMode() {
