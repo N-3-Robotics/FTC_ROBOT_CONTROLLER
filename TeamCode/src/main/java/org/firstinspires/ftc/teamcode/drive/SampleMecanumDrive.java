@@ -102,9 +102,6 @@ public class SampleMecanumDrive extends MecanumDrive {
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
-        CRANE = hardwareMap.get(DcMotorEx.class, "LIFT");
-        CRANE.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         leftFront = hardwareMap.get(DcMotorEx.class, "FL");
         leftRear = hardwareMap.get(DcMotorEx.class, "BL");
         rightRear = hardwareMap.get(DcMotorEx.class, "BR");
