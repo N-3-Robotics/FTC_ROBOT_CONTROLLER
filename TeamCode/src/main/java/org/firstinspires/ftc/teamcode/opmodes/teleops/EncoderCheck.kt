@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 import org.firstinspires.ftc.teamcode.robot.Robot
 
 
@@ -26,6 +27,21 @@ class EncoderCheck: LinearOpMode() {
             telemetry.addData("LEFT", hardwareMap.get(DcMotorEx::class.java, "LIFT").currentPosition)
             telemetry.addData("RIGHT", hardwareMap.get(DcMotorEx::class.java, "RO").currentPosition)
             telemetry.update()
+        }
+    }
+}
+
+@TeleOp(name = "DIS CHECK")
+class DisCheck: LinearOpMode() {
+
+    override fun runOpMode() {
+        val ROBOT = Robot(hardwareMap)
+
+        waitForStart()
+        while (opModeIsActive()) {
+            telemetry.addData("DISTANCE", ROBOT.DIS.getDistance(DistanceUnit.INCH))
+            telemetry.update()
+            sleep(500)
         }
     }
 }

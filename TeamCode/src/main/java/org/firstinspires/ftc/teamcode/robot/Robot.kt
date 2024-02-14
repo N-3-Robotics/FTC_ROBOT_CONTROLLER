@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.robot
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.acmerobotics.roadrunner.kinematics.MecanumKinematics
 import com.qualcomm.hardware.bosch.BNO055IMU
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
@@ -44,6 +45,8 @@ class Robot(hwMap: HardwareMap?) {
     var RO: DcMotorEx
 
     var IMU: BNO055IMU
+
+    var DIS: Rev2mDistanceSensor
 
     val trackWidth = 12.0
     val wheelBase = 9.5
@@ -122,6 +125,8 @@ class Robot(hwMap: HardwareMap?) {
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC
         IMU.initialize(parameters)
+
+        DIS = hardwareMap!!.get(Rev2mDistanceSensor::class.java, "DIS")
     }
 
     val currentPosition: Int

@@ -27,7 +27,6 @@ public class RedPipeline extends OpenCvPipeline {
     double redAmount1 = 0;
     double redAmount2 = 0;
 
-    double redAmount3 = 0;
     private final double redThreshold = 4000;
     private String pos = "UNKNOWN";
 
@@ -47,42 +46,36 @@ public class RedPipeline extends OpenCvPipeline {
 
         // Define the coordinates of three rectangles
         // You need to adjust these coordinates based on your screen resolution
-        Rect rect1 = new Rect(1, 150, 110, 250);
-        Rect rect2 = new Rect(250, 175, 180, 215);
-        Rect rect3 = new Rect(500, 230, 100, 100);
+        Rect rect1 = new Rect(640-121, 180, 120, 250);
+        Rect rect2 = new Rect(125, 175, 180, 215);
 
         // Draw rectangles on the output
         drawRectangle(maskedInputMat, rect1, new Scalar(255, 0, 0)); // Blue
         drawRectangle(maskedInputMat, rect2, new Scalar(0, 255, 0)); // Green
-        drawRectangle(maskedInputMat, rect3, new Scalar(0, 0, 255)); // Green
 
         drawRectangle(frame, rect1, new Scalar(255, 0, 0)); // Blue
         drawRectangle(frame, rect2, new Scalar(0, 255, 0)); // Green
-        drawRectangle(frame, rect3, new Scalar(0, 0, 255)); // Green
 
 
 
         // Calculate the amount of red in each rectangle
         Mat r1 = maskedInputMat.submat(rect1);
         Mat r2 = maskedInputMat.submat(rect2);
-        Mat r3 = maskedInputMat.submat(rect3);
         redAmount1 = calculateRedAmount(r1);
         redAmount2 = calculateRedAmount(r2);
-        redAmount3 = calculateRedAmount(r3);
         r1.release();
         r2.release();
-        r3.release();
 
 
         if (redAmount1 > redThreshold) {
-            pos = "LEFT";
-            telemetry.addData("Position", "LEFT");
+            pos = "RIGHT";
+            telemetry.addData("Position", "RIGHT");
         } else if (redAmount2 > redThreshold) {
             pos = "CENTER";
             telemetry.addData("Position", "CENTER");
         } else {
-            pos = "RIGHT";
-            telemetry.addData("Position", "RIGHT");
+            pos = "LEFT";
+            telemetry.addData("Position", "LEFT");
         }
 
 //        telemetry.addData("Red Amount 1", redAmount1);
@@ -132,9 +125,6 @@ public class RedPipeline extends OpenCvPipeline {
         return redAmount2;
     }
 
-    public double getRedAmount3() {
-        return redAmount3;
-    }
     private void drawRectangle(Mat mat, Rect rect, Scalar color) {
         Imgproc.rectangle(mat, rect.tl(), rect.br(), color, 2);
     }
