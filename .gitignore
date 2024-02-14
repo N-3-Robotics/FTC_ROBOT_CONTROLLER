@@ -83,3 +83,5 @@ lint/tmp/
 
 MeepMeepTesting/src/main/java/com/example/meepmeeptesting/MeepMeepTesting.java
 TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pipelines/EOCV-Sim-3.5.2-all.jar
+/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autos/eocvsim_workspace.json
+/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pipelines/depricated/eocvsim_workspace.json
